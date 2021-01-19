@@ -4,11 +4,6 @@ class searching
     public $input;
     public $connection6;
     public $date_filter=array();
-    // $date_filter['today']='';
-    // $date_filter['last_week']='';
-    // $date_filter['last_month']='';
-    // $key=array('today','last_week','last_month')
-    // array_fill_keys($keys, 'majestic')
     function __construct($input,$connection6) 
     {
         $this->input = $input;
@@ -70,9 +65,8 @@ class searching
             }
             
         }
-        //var_dump($date_btn);
         $input_new= preg_replace($pattern_date_btn, '', $input_new); 
-        //var_dump($input_new);
+
         $pattern_email= "/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/";
         if(preg_match_all($pattern_email, $input_new, $output) )
         {
@@ -97,6 +91,7 @@ class searching
         {
             echo "string";
         }
+
         foreach ($query_data as $key => $value_q)
         {   
             if(!empty($data['string']))
@@ -138,7 +133,6 @@ class searching
     }
     function searching_data($ids_of_string)
     {   
-        //var_dump($this->date_filter);
         
         $Date1='';
         $month='';
@@ -243,12 +237,12 @@ class searching
         }
         if($this->date_filter['today']!='')
         {
-            //var_dump($this->date_filter['today']);
+
             array_push($append_string_id, "table_name_date.select_column LIKE '%".$this->date_filter['today']."%'"); 
         }
         if($this->date_filter['week_from']!='')
         {
-            //var_dump($this->date_filter['week_from']);
+
             array_push($append_string_id, "table_name_date.select_column BETWEEN '".$this->date_filter['week_from']."' AND '".$this->date_filter['week_to']."'"); 
         } 
         if($this->date_filter['month_from']!='')
@@ -293,11 +287,11 @@ class searching
                     $ids[$get_ids[$i]][$key]['name']=$result[$key]['name'];
                 }      
             } 
-            //var_dump($ids);
+
             $new_e_ids[$get_ids[$i]]=$this->string_ids($string,$ids[$get_ids[$i]],$type=$get_ids[$i]);
             
         }
-        //var_dump($new_e_ids);
+
         return $new_e_ids;
          
     }
@@ -337,11 +331,11 @@ class searching
                 }
             }     
         }
-        //var_dump($ids);
+
         $common_stuff = $this->array_not_unique($ids);
-        //var_dump($common_stuff);
+
         $unik_stuff=array_unique($common_stuff);
-        //var_dump($unik_stuff);
+
         $new_ids=array();
         if(!empty($common_stuff))
         {   
@@ -355,9 +349,9 @@ class searching
         {
             $new_ids=$ids;
         }
-        //var_dump($new_ids);
+
         $new_ids=implode(",",$new_ids);
-        //var_dump($new_ids);
+
         return $new_ids;
     }    
        

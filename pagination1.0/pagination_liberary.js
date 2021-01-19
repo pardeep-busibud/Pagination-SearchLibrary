@@ -83,11 +83,11 @@
             {
                 var from_next=page_not_present[1];   
             }
-            //var buffer_size_from_to=new Array();
+
             var flag=0;
             this.buffer_size_from_to[flag]=""+from+""+","+""+to+"";
             for (var i = 1; i <page_not_present.length; i++) 
-            {   //debugger;
+            {   
 
                 if((to+1)==page_not_present[i])
                 {   
@@ -109,7 +109,6 @@
             if(this.buffer_size_from_to[0]!='undefined,undefined')
             {    
                 return this.buffer_size_from_to;
-                //manage_buffer_SendAjax(buffer_size_from_to,type);
             }
             else
             {
@@ -119,7 +118,7 @@
         },
         manage_buffer_SendAjax:function(ajax_data)
         {
-            // debugger;
+
 
             $.ajax({ 
                         type:"POST",
@@ -129,11 +128,11 @@
                         dataType: 'json',
                         beforeSend()
                         {
-                           //$("#loading").show(); 
+
                         },
                         success(data)
                         {    
-                            // debugger;
+
                            manage_buffer.manage_buffer_AddData(data);
                            $("#loading").hide();
 
@@ -145,21 +144,18 @@
                     }); 
         },
         manage_buffer_AddData:function(response)
-        {   //debugger
-            //console.log(this.total_data);
+        {   
             this.data_not_fount='';
             this.date_not_found='';
             this.table_heading_names=response['table_heading_name'];
             this.table_coulmn_names=response['table_column_name'];
-            // $('#DataNotFound').hide();
-            // $('#DateNotFound').hide();
+           
             if(!jQuery.isEmptyObject(response['total_data']))
             {
-                //console.log('notempty');
+                
                 if(response=='Invalid Date or month')
                 {   
-                    //console.log(response);
-                    // $("#DateNotFound").show();
+                    
                     this.date_not_found='date not found';
                     this.max_page1=1;
                 }
@@ -179,23 +175,21 @@
                     }
                     for (var key in response['total_data']) 
                     {
-                        //console.log(key);
+
                         this.total_data[key] =response['total_data'][key];
                         this.max_page1=response['max_page'];
-                        // 
+
                     }   
                 }
                 
             }
             else
             {    
-                // console.log('hello1');
-                // console.log(jQuery.isEmptyObject(total_data));
+               
                 $("#tbodyid_data_upcoming tbody").empty();
                 if(type=='search' && current_page==1 && jQuery.isEmptyObject(this.total_data))
                 {   
-                    //console.log('hello');
-                    // $("#DataNotFound").show();
+                   
                     this.data_not_fount='data not found';
                     
                     this.max_page1=1;
@@ -209,7 +203,7 @@
         var manage_html={
         make_new_pagination:function(max_page)
         {   
-            //debugger;
+
             var max_page=max_page;
             var pagi_id=manage_html.make_new_table(current_page);
             $("#"+pagi_id).pagination(
@@ -220,14 +214,12 @@
                 currentPage: current_page,
                 onPageClick: function (page, event) 
                 {
-                //debugger;
-                    
+               
                     current_page=page;
-                    //ajax_data;
-                    //console.log(manage_buffer.current_page);
+                   
                     manage_buffer.construct(manage_html.make_new_pagination);
                     var buffer_range=manage_buffer.manage_buffer_findPage(current_page);
-                    //console.log(buffer_range);
+
                     var page_not_present=manage_buffer.manage_buffer_WhetherBufferExists(buffer_range)
                     var get_page_range=manage_buffer.manage_buffer_GetPageRange(page_not_present);
                     
@@ -238,7 +230,7 @@
                         manage_buffer.manage_buffer_SendAjax(ajax_data);
                     }
                     pagination_on_click='pagi';
-                    //make_table_pagination(ajax_url,ajax_data);
+
                     manage_html.make_new_table(current_page);    
                 }
             });
@@ -246,13 +238,13 @@
         },
         make_new_table:function(current_page_new)
         {    
-            //debugger;
-            console.log(type);
+
+
             var tbody_ids=new Array('myTable','myTable1','myTable2','myTable3','myTable4','myTable5');
-            //console.log(tbody_ids);
+
             var current_page_data=new Array();
             var current_page_data=manage_buffer.total_data[current_page_new];
-            //console.log(current_page_data)
+
             var tbody_id=$('tbody');
             var tb_id_name='';
             var pagination_id_name='';
@@ -267,15 +259,14 @@
             {
                 tb_id_name='myTable';
                 pagination_id_name='pagination_'+tb_id_name;
-                //console.log(pagination_id_name);
+
             }
             if(type=='search' ||pagination_on_click=='pagi' || reload=='reload')
             {
                 var search_id=$(table_div_id).find('table tbody').attr('id');
                 tb_id_name=search_id
                 pagination_id_name='pagination_'+tb_id_name; 
-                //console.log(table_div_id);
-                //var a=$(table_div_id).find('table').length;
+               
                 
             }
             else
@@ -286,22 +277,20 @@
 
 
                 $.each(tbody_ids ,function (index, value_arr)
-                {   //console.log(index+1);
+                {  
                     var flag=0;
                     $.each(id_tbody ,function (index, value_got)
                     {
-                        // console.log(value_got);
-                        // console.log(value_arr);
+                      
                         if(value_arr==value_got)
                         {
-                            // console.log(value_got);
-                            // console.log(value_arr);
+                           
                            flag=1;
-                           //return false;
+                          
                         }
                         
                     });
-                    //console.log(flag);
+
                     if(flag==0)
                     {
                         tb_id_name=value_arr;
@@ -311,7 +300,7 @@
                 });
                 }
             }
-            //console.log(tb_id_name);
+
             tth='';
             $.each(manage_buffer.table_heading_names, function(index, value)
             {
@@ -321,12 +310,10 @@
             {
                 var table='<div class="panel-body" ><div class="row search_div" id="search_div"><div class="col-md-6"><div id="date_filter"><button id="today" class="btn btn-primary date_btn" value="today">Today</button> <button id="last_week" class="btn btn-primary date_btn" value="last_week">Last Week</button> <button id="last_month" class="btn btn-primary date_btn" value="last_month">Last Month</button></div></div><div class="col-md-6"><div class="form-group" id="search_id"><input type="input" class="form-control input-lg" id="txt-search" selectd_div='+table_div_id+' placeholder="Filter results"></div></div></div><div style="overflow-x:auto;"><table class="table table-bordered table-custom" id = "tbodyid_data_upcoming"><thead><tr>'+tth+'</tr></thead><tbody id='+tb_id_name+'></tbody></table></div><div id="data_not_found"></div><div class="pagination_page" style="margin-bottom: 50px"><ul id='+pagination_id_name+' class="pagination-lg pull-right"></ul></div></div>';
             }
-            //$('#search_div').remove();
-            //$(".panel-body").remove();
+           
             $("#"+tb_id_name+" tr").remove();
             $("#data_not").remove();
-            //console.log(manage_buffer.table_div);
-            // var table='<div class="panel-body"><div class="row search_div" id="search_div"><div class="col-md-6"></div><div class="col-md-6"><div class="form-group"><input type="input" class="form-control input-lg" id="txt-search" placeholder="Filter results"></div></div></div><div style="overflow-x:auto;"><table class="table table-bordered table-custom" id = "tbodyid_data_upcoming"><thead><tr>'+tth+'</tr></thead><tbody id="myTable"></tbody></table></div><div id="data_not_found"></div><div class="pagination_page" style="margin-bottom: 50px"><ul id="pagination-demo" class="pagination-lg pull-right"></ul></div></div>';
+           
             if(type!='search' && reload!='reload')
             {
                 $(table_div_id).append(table);
@@ -350,10 +337,7 @@
                     {
                         ttd+='<td>'+value[valueOfColumn]+'</td>'; 
                     }
-                    //ttd+='<td>'+value[valueOfColumn]+'</td>'; 
-
                     
-                    // console.log(ttd);
                 });
                 
                 append_data+='<tr value='+value_of_id+' id='+tr_id+'>'+ttd+'</tr>';
@@ -362,24 +346,24 @@
             });
             if(search_enable_or_desiable)
             {
-                // var table='<div ><div id="ser">'+search+'</div><div ><table class="table table-bordered table-hover" id="tbl"><thead><tr>'+tth+'</tr></thead><tbody>'+append_data+'</tbody></table></div><div id="data_not_found"></div></div></div></div>';
+                
             }
             else
             {
                 $(""+table_div_id+" #search_id").remove();
-                //var table='<div class="panel-body"><table lass="table table-bordered table-custom" id="tbl"><thead><tr>'+tth+'</tr></thead><tbody>'+append_data+'</tbody></table></div><div id="data_not_found"></div></div>';
+                
             }
             if(date_filter_enable_desable==false)
             {
                 $(""+table_div_id+" #date_filter").remove();
             }
-            //console.log(append_data);
+
             $('#'+tb_id_name).append(append_data);
-            //var pagination='<div><ul id="pagination-demo" class="pagination-lg pull-right"></ul></div>';
+          
             
             if(manage_buffer.data_not_fount)
             {
-                 //$("#ser").remove();
+
                 $(""+table_div_id+" #data_not_found").append('<div id="data_not" align="center"><h3>Data Not Found</h3> </div>');
             }
             if(manage_buffer.date_not_found)
@@ -388,23 +372,22 @@
             }
             manage_buffer.search_div_counter=1;
             return pagination_id_name;
-            //$(pagination_div_id).append(pagination);
+           
         }};
 
             manage_buffer.construct(manage_html.make_new_pagination);
             var buffer_range=manage_buffer.manage_buffer_findPage(current_page);
-            //console.log(buffer_range);
+
             var page_not_present=manage_buffer.manage_buffer_WhetherBufferExists(buffer_range,current_page)
             var get_page_range=manage_buffer.manage_buffer_GetPageRange(page_not_present);
-            //console.log(get_page_range);
-        //console.log(buffer_size_from_to);
+           
             var ajax_data = ajax_data || {};
                 ajax_data["request"]=type;
                 ajax_data["buffer_data"]=JSON.stringify(get_page_range);
                 ajax_data["data_per_page"]=data_per_page;
                 ajax_data["input_value"]=input_value;
             
-            //return ajax_data;
+
             if(get_page_range!='undefined')
             {
                 
