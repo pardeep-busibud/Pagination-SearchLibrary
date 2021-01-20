@@ -9,7 +9,7 @@
 
 	$connection_mock_chat = NULL;
 
-	$application_obj->Myconnection ($connection_mock_chat,"localhost","root","login_db");
+	$application_obj->Myconnection ($connection_mock_chat,"localhost","root","Mock_test_db");
 	$table_heading_name=array('Name','Email','Phone Number','Gender');
 	$table_column_name=array('name','email','phoneNum','gender');
 	$where=1;
