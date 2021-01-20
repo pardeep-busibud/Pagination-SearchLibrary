@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 18, 2021 at 02:17 PM
+-- Generation Time: Jan 20, 2021 at 07:37 AM
 -- Server version: 5.7.26
 -- PHP Version: 5.6.40
 
@@ -11,7 +11,7 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Database: `login_db`
+-- Database: `Mock_test_db`
 --
 
 -- --------------------------------------------------------
