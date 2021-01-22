@@ -1,8 +1,7 @@
-# Mock Test 
+# Pagination and Search Library
 
 ## Introduction
-	This is used for paginated all data whatever we are going to fetch from database. This helps us to show all data using pagination. In this project main file is index.html If we want to search name we can put name in search field then it will fetch name according to name whichever will be like entered value. 
+	This library is being used for pagination and for searching data. The library shows data from the database (mock_test_tbl.sql) and shows it in the frontend in a paginated manner. The library is further meant to assist with keyword searches on the data. This allows users to search for a particular record by name, for example.
 
-## Purpose
-	On search field if we enter email address then it is not giving any result. we need to configure pagination library and search library which helps us to find email address also.
-	For make this work we need to configre code in backed.php and its related required files.
+## Known Issues
+	In the search field, we do not get any results if we enter an email address. We need to configure pagination library and search library in such a way that it helps us search using the email address as well.
