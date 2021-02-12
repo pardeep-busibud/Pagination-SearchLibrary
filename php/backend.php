@@ -193,10 +193,10 @@
 		                $res_here=$val;
 		                $res_here['max_page']=$max_page;
 		                $res_here['total_length'] =$total_length;
-		                $Name=$val['name'];
-		                $Email=$val['email'];
-		                $phoneNum=$val['phone'];
-		                $Gender=$val['gender'];
+		                $Name=$val['Name'];
+		                $Email=$val['Email'];
+		                $phoneNum=$val['Phone'];
+		                $Gender=$val['Gender'];
 		                $res_here['name']=$Name;
 		                $res_here['email']=$Email;
 		                $res_here['phoneNum']=$phoneNum;
