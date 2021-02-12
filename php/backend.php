@@ -44,7 +44,8 @@
 	    $response_data=array();
 	    $obj=new searching($input,$connection_mock_chat);
 	    $keys=array('type','table_name','search_col_name','get_colms','get_id');
-	    $value=array(array('string','login_db.mock_test_tbl','name','null as name,id,null as email,null as phone,null as gender','id'));
+	    //$value=array(array('string','login_db.mock_test_tbl','name','null as name,id,null as email,null as phone,null as gender','id'));
+	    $value=array(array('email','login_db.mock_test_tbl','email','Name as name,id,Email as email,Phone as phone,Gender as gender','id'));
 	    $query_data=array();
 
 	    foreach ($value as $key => $value1) 
