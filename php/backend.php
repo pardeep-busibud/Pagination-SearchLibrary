@@ -9,7 +9,7 @@
 
 	$connection_mock_chat = NULL;
 
-	$application_obj->Myconnection ($connection_mock_chat,"localhost","root","Mock_test_db");
+	$application_obj->Myconnection ($connection_mock_chat,"localhost","root","login_db");
 	$table_heading_name=array('Name','Email','Phone Number','Gender');
 	$table_column_name=array('name','email','phoneNum','gender');
 	$where=1;
@@ -44,7 +44,8 @@
 	    $response_data=array();
 	    $obj=new searching($input,$connection_mock_chat);
 	    $keys=array('type','table_name','search_col_name','get_colms','get_id');
-	    $value=array(array('string','login_db.mock_test_tbl','name','null as name,id,null as email,null as phone,null as gender','id'));
+	    //$value=array(array('string','login_db.mock_test_tbl','name','null as name,id,null as email,null as phone,null as gender','id'));
+	    $value=array(array('email','login_db.mock_test_tbl','email','Name as name,id,Email as email,Phone as phone,Gender as gender','id'));
 	    $query_data=array();
 
 	    foreach ($value as $key => $value1) 
@@ -193,10 +194,10 @@
 		                $res_here=$val;
 		                $res_here['max_page']=$max_page;
 		                $res_here['total_length'] =$total_length;
-		                $Name=$val['name'];
-		                $Email=$val['email'];
-		                $phoneNum=$val['phone'];
-		                $Gender=$val['gender'];
+		                $Name=$val['Name'];
+		                $Email=$val['Email'];
+		                $phoneNum=$val['Phone'];
+		                $Gender=$val['Gender'];
 		                $res_here['name']=$Name;
 		                $res_here['email']=$Email;
 		                $res_here['phoneNum']=$phoneNum;
