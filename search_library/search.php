@@ -65,15 +65,15 @@ class searching
             }
             
         }
-        $input_new= preg_replace($pattern_date_btn, '', $input_new); 
-
-        $pattern_email= "/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/";
-        if(preg_match_all($pattern_email, $input_new, $output) )
-        {
-            $email=$output[0][0];    
-        }
-        $input_new= preg_replace('/\b[\d]+\b/', '', $input_new); 
-        $input_new = preg_replace("/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/",'',$input_new);  
+//        $input_new= preg_replace($pattern_date_btn, '', $input_new); 
+//
+//        $pattern_email= "/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/";
+//        if(preg_match_all($pattern_email, $input_new, $output) )
+//        {
+//            $email=$output[0][0];    
+//        }
+//        $input_new= preg_replace('/\b[\d]+\b/', '', $input_new); 
+//        $input_new = preg_replace("/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/",'',$input_new);  
         $pattern_string = "/\b[a-zA-Z_]+\b|\b\w*\d\w*\b/";
         if(preg_match_all($pattern_string, $input_new, $output))
         {   
@@ -86,7 +86,7 @@ class searching
         }
         $data['string']=$expert_and_company; 
         array_push($data['string'], $email); 
-        $data['email']=$email;    
+        $data['email']=$input_new;    
         if($data['string'][0]='' AND $data['email']='')
         {
             echo "string";
@@ -101,10 +101,10 @@ class searching
                     if(!empty($expert_and_company))
                     {
                         $attachment=array();
-                        foreach ($expert_and_company as $key => $value) 
-                        {    
-                            array_push($attachment,''.$value_q['search_col_name'].' LIKE "%'.$value.'%"'); 
-                        }
+//                        foreach ($expert_and_company as $key => $value) 
+//                        {    
+                            array_push($attachment,''.$value_q['search_col_name'].' LIKE "%'.$input_new.'%"'); 
+                        //}
                         $append_string_in_sql=implode(' OR ', $attachment);
                         $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$append_string_in_sql.'';
                         array_push($query_array, $query);  
@@ -113,11 +113,14 @@ class searching
                     array_push($get_ids,$value_q['get_id']);   
                 }
             }
+            //echo "<pre>";print_r($data);die;
             if(!empty($data['email']))
             {
+              
                 if ($value_q['type']=='email') 
                 {   
-                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].'="'.$email.'"';
+                    
+                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].' LIKE "%'.$input_new.'%"';
                     array_push($query_array, $query);
                     array_push($get_ids,$value_q['get_id']); 
                 }
@@ -128,6 +131,7 @@ class searching
         $data['sub_querys']=$query_array;
         $data['get_ids']=$get_ids;
         $string_query=implode(' UNION ', $query_array); 
+        
         $data['query']=$string_query; 
         return $data;    
     }
