@@ -1,3 +1,14 @@
+<?php
+
+$con=mysqli_connect('localhost','root','','mock_test_tbl');
+// if($con==true)
+// {echo "connection is successfull";}
+
+$query="select * from mock_test_tbl";
+$execute=mysqli_query($con,$query);
+// print_r($execute);?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
