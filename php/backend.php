@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 	require_once('/Applications/MAMP/htdocs/Mock_test_1/search_library/search.php');
 
@@ -208,4 +208,4 @@
 		}
 
 	}
-?>
+?> 
