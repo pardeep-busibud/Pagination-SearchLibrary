@@ -221,8 +221,8 @@
 
             $(document).ready(function()
             { 
-                $("head").append('<script type="text/javascript" src="/./Mock_test_1/pagination1.0/simplePagination.js-master/jquery.simplePagination.js"></script>');
-                $("head").append('<link rel="stylesheet" href="/./Mock_test_1/pagination1.0/simplePagination.js-master/simplePagination.css">');
+                $("head").append('<script type="text/javascript" src="./pagination1.0/simplePagination.js-master/jquery.simplePagination.js"></script>');
+                $("head").append('<link rel="stylesheet" href="./pagination1.0/simplePagination.js-master/simplePagination.css">');
 
                 $("#"+pagi_id).pagination(
                 {      
