@@ -148,9 +148,9 @@
                            $("#loading").hide();
 
                         },
-                        error: function() 
+                        error: function(data) 
                         {
-                            
+                            console.log(data);
                             console.log("Error occured!");
                         }
                     }); 
