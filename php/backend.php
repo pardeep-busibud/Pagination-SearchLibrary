@@ -1,15 +1,15 @@
 <?php
 
-	require_once('/Applications/MAMP/htdocs/Mock_test_1/search_library/search.php');
+	require_once('/xampp/htdocs/Mock_test_1/search_library/search.php');
 
-	require_once('/Applications/MAMP/htdocs/Mock_test_1/pagination1.0/prepared_query.php');
+	require_once('/xampp/htdocs/Mock_test_1/pagination1.0/prepared_query.php');
 
 
 	$application_obj = new ManageApp();
 
 	$connection_mock_chat = NULL;
 
-	$application_obj->Myconnection ($connection_mock_chat,"localhost","root","Mock_test_db");
+	$application_obj->Myconnection ($connection_mock_chat,"localhost","","mock_test_db");
 	$table_heading_name=array('Name','Email','Phone Number','Gender');
 	$table_column_name=array('name','email','phoneNum','gender');
 	$where=1;
@@ -44,7 +44,15 @@
 	    $response_data=array();
 	    $obj=new searching($input,$connection_mock_chat);
 	    $keys=array('type','table_name','search_col_name','get_colms','get_id');
-	    $value=array(array('string','login_db.mock_test_tbl','name','null as name,id,null as email,null as phone,null as gender','id'));
+	    $inputSearch = strtolower($input);
+		if(filter_var($inputSearch, FILTER_VALIDATE_EMAIL))
+		{
+			 $value=array(array('email','mock_test_db.mock_test_tbl','email','null as name,id,null as email,null as phone,null as gender','id'));
+		}
+		else
+		{
+			 $value=array(array('string','mock_test_db.mock_test_tbl','name','null as name,id,null as email,null as phone,null as gender','id'));
+		}
 	    $query_data=array();
 
 	    foreach ($value as $key => $value1) 
@@ -66,7 +74,7 @@
 	    $where_data=$obj->searching_data($get_ids);
 
 	    $table_from=array("table_name_id","table_name_email");
-	    $table1_to=array("login_db.mock_test_tbl","login_db.mock_test_tbl");
+	    $table1_to=array("mock_test_db.mock_test_tbl","mock_test_db.mock_test_tbl");
 	    $tble1=str_replace($table_from, $table1_to, $where_data);
 
 	    if($tble1=='')
@@ -97,7 +105,7 @@
 
 	        $user='root';
 
-			$connection= mysqli_connect ($host, $user, "root" , $db); 
+			$connection= mysqli_connect ($host, $user, "" , $db); 
 			if (!$connection) 
 			{
 				die ( "no connection found" . mysqli_error($connection));
@@ -193,10 +201,10 @@
 		                $res_here=$val;
 		                $res_here['max_page']=$max_page;
 		                $res_here['total_length'] =$total_length;
-		                $Name=$val['name'];
-		                $Email=$val['email'];
-		                $phoneNum=$val['phone'];
-		                $Gender=$val['gender'];
+		                $Name=$val['Name'];
+		                $Email=$val['Email'];
+		                $phoneNum=$val['Phone'];
+		                $Gender=$val['Gender'];
 		                $res_here['name']=$Name;
 		                $res_here['email']=$Email;
 		                $res_here['phoneNum']=$phoneNum;
