@@ -74,8 +74,10 @@ function mysqli_prepared_query($link,$sql,$typeDef = FALSE,$params = FALSE)
   } 
   
   if($multiQuery){ 
+	
     return $result; 
   } else { 
+  
     return $result[0]; 
   } 
 } 
