@@ -2,7 +2,6 @@
         var div_data_container={};
         function make_table_pagination(ajax_url,ajax_data,table_div_id,data_per_page,search_enable_or_desiable,input_value,type,reload) 
         {
-
             var buffer_size= buffer_size || 40;
             var current_page= current_page || 1;
             var data_per_page= data_per_page || 10;
@@ -130,7 +129,6 @@
         manage_buffer_SendAjax:function(ajax_data)
         {
   
-
             $.ajax({ 
                         type:"POST",
                         async: "false",
@@ -142,15 +140,15 @@
                            
                         },
                         success(data)
-                        {    
-                            
+                        { 
+							
                            manage_buffer.manage_buffer_AddData(data);
                            $("#loading").hide();
 
                         },
                         error: function() 
                         {
-                            
+                           
                             console.log("Error occured!");
                         }
                     }); 
@@ -221,8 +219,8 @@
 
             $(document).ready(function()
             { 
-                $("head").append('<script type="text/javascript" src="/./Mock_test_1/pagination1.0/simplePagination.js-master/jquery.simplePagination.js"></script>');
-                $("head").append('<link rel="stylesheet" href="/./Mock_test_1/pagination1.0/simplePagination.js-master/simplePagination.css">');
+                $("head").append('<script type="text/javascript" src="pagination1.0/simplePagination.js-master/jquery.simplePagination.js"></script>');
+                $("head").append('<link rel="stylesheet" href="pagination1.0/simplePagination.js-master/simplePagination.css">');
 
                 $("#"+pagi_id).pagination(
                 {      
