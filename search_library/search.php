@@ -11,6 +11,7 @@ class searching
     }
     function get_query_and_data($query_data)
     {    
+        
         $email='';
         $expert_and_company=array();
         $data=array();
@@ -129,6 +130,7 @@ class searching
         $data['get_ids']=$get_ids;
         $string_query=implode(' UNION ', $query_array); 
         $data['query']=$string_query; 
+        
         return $data;    
     }
     function searching_data($ids_of_string)
@@ -220,13 +222,13 @@ class searching
                if($value=='')
                {
                     $value_id="".$string_ids."";
-                    array_push($append_id, "table_name_".$key.".".$key." IN (".$value_id.")");
+                    array_push($append_id, "mock_test_tbl.".$key." IN (".$value_id.")");
                }
                
             }
             if($value!='')
             {
-               array_push($append_string_id, "table_name_".$key.".".$key." IN (".$value.")"); 
+               array_push($append_string_id, "mock_test_tbl.".$key." IN (".$value.")"); 
             }
         }
         //if()
@@ -268,6 +270,7 @@ class searching
             }
             
         } 
+        
         return $append_where_data;
     }
 
@@ -279,19 +282,20 @@ class searching
             {
                 $ids[$get_ids[$i]] = array();
             }
+           
             foreach($result as $key => $value)
             {
                 if(isset($result[$key][$get_ids[$i]]))
                 {   
                     $ids[$get_ids[$i]][$key][$get_ids[$i]]=$result[$key][$get_ids[$i]];
-                    $ids[$get_ids[$i]][$key]['name']=$result[$key]['name'];
+                    $ids[$get_ids[$i]][$key]['Id']=$result[$key]['Id'];
                 }      
             } 
 
             $new_e_ids[$get_ids[$i]]=$this->string_ids($string,$ids[$get_ids[$i]],$type=$get_ids[$i]);
             
         }
-
+       
         return $new_e_ids;
          
     }
@@ -325,7 +329,7 @@ class searching
             $pattern='('.$value1.')';
             foreach ($string_ids as $key => $value)
             {  
-               if(preg_match_all($pattern, strtolower($string_ids[$key]['name']), $output))
+               if(preg_match_all($pattern, strtolower($string_ids[$key]['Id']), $output))
                 {        
                     array_push($ids, $string_ids[$key][$type]);    
                 }
