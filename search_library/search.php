@@ -124,6 +124,7 @@ class searching
             if(!empty($data['email']))
             {
                     #checking whether type email or not is removed as we will be checking whether it has '@' and getting email like the input value
+                    #checking rows with email like input value if '@' present in the given value
                     $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE Email LIKE "%'.$email.'%"';
                     array_push($query_array, $query);
                     array_push($get_ids,$value_q['get_id']); 
