@@ -68,20 +68,28 @@ class searching
         $input_new= preg_replace($pattern_date_btn, '', $input_new); 
 
         $pattern_email= "/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/";
-        if(preg_match_all($pattern_email, $input_new, $output) )
+
+        /* Below if Will check whether input value has '@' if yes then it will get email that matches the input value*/
+        if(preg_match('[@]', $input_new) )
         {
-            $email=$output[0][0];    
+            $email=$input_new;
         }
-        $input_new= preg_replace('/\b[\d]+\b/', '', $input_new); 
-        $input_new = preg_replace("/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/",'',$input_new);  
+        $input_new= preg_replace('/\b[\d]+\b/', '', $input_new);
+        $input_new = preg_replace("/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/",'',$input_new);
         $pattern_string = "/\b[a-zA-Z_]+\b|\b\w*\d\w*\b/";
-        if(preg_match_all($pattern_string, $input_new, $output))
-        {   
-            $name_ex_comp=$output[0];
-            for ($i=0; $i < sizeof($name_ex_comp); $i++) 
+
+        if(preg_match($pattern_string, $input_new))
+        {
+            #input value is appended in name_ex_comp to create query if it matches pattern to check exact value in the table
+            $name_ex_comp=$input_new;
+            array_push($expert_and_company, $name_ex_comp);
+
+            #for loop is commented to avoid checking multiple values
+
+            /*for ($i=0; $i < sizeof($name_ex_comp); $i++)
             {   
                 array_push($expert_and_company, $name_ex_comp[$i]); 
-            }
+            }*/
              
         }
         $data['string']=$expert_and_company; 
@@ -115,12 +123,11 @@ class searching
             }
             if(!empty($data['email']))
             {
-                if ($value_q['type']=='email') 
-                {   
-                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].'="'.$email.'"';
+                    #checking whether type email or not is removed as we will be checking whether it has '@' and getting email like the input value
+                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE Email LIKE "%'.$email.'%"';
                     array_push($query_array, $query);
                     array_push($get_ids,$value_q['get_id']); 
-                }
+
             }
 
         }
