@@ -1,0 +1,314 @@
+var user_details = [
+	 { "name": "kiran", "email": "airanb@gmail.com", "age":1 },
+	  { "name": "naveen B", "email": "naveen@gmail.com", "age":2 },
+	  { "name": "rakesh G", "email": "rocky@gmail.com", "age":5 },
+	  { "name":"hp", "email":"hp@gmail.com","age":3},
+	  { "name": "viresh", "email": "viresh@gmail.com", "age":22 },
+	  { "name": "shree", "email": "shree@gmail.com", "age":100 },
+	  { "name": "rahul", "email": "rahul@gmail.com", "age":36 },
+	  { "name": "santosh", "email": "santosh@gmail.com", "age":50 },
+	  { "name": "sam", "email": "sam@gmail.com", "age":41 },
+	  { "name": "mi", "email": "mi@gmail.com", "age":98 },
+	  { "name": "google", "email": "cgoogle@gmail.com", "age":57 },
+	  { "name": "nokia", "email": "nokia@gmail.com", "age":"" },
+	  { "name": "apple", "email": "apple@gmail.com", "age":10 },
+	  { "name": "infinix", "email": "infinix@gmail.com", "age":31 },
+	  { "name": "one plus", "email": "one plus@gmail.com", "age":28 },
+	  { "name": "dell", "email": "dell@gmail.com", "age":88 },
+	  { "name": "lenovo", "email": "dlenovo@gmail.com", "age":45 },
+	  { "name": "motorola", "email": "motorola@gmail.com", "age":5 },
+	  { "name": "zen", "email": "zen@gmail.com", "age":14 },
+	  { "name": "prestige", "email": "prestige@gmail.com", "age":36 },
+	  { "name": "peigion", "email": "peigion@gmail.com", "age":97 },
+	  { "name": "bisleri", "email": "ebisleri@gmail.com", "age":65 },
+	  { "name": "bangalore", "email": "bangalore@gmail.com", "age":69 },
+	  { "name": "mysore", "email": "mysore@gmail.com", "age":"" },
+	  { "name": "bijapur", "email": "bijapur@gmail.com", "age":47 },
+	  { "name": "bgk", "email": "bgk@gmail.com", "age":22 },
+	  { "name": "gadag", "email": "fgadag@gmail.com", "age":12 },
+	  { "name": "hubli", "email": "hubli@gmail.com", "age":73 },
+	  { "name": "belagavi", "email": "belagavi@gmail.com", "age":30},
+	  { "name": "kittur", "email": "kittur@gmail.com", "age":38 },
+	  { "name": "naragund", "email": "naragund@gmail.com", "age":45 },
+	  { "name": "google", "email": "kgoogle@gmail.com", "age":8 },
+	  { "name": "youtube", "email": "lyoutube@gmail.com", "age":49 },
+	  { "name": "hubli", "email": "hubli@gmail.com", "age":73 },
+	  { "name": "belagavi", "email": "belagavi@gmail.com", "age":30},
+	  { "name": "kittur", "email": "kittur@gmail.com", "age":38 },
+	  { "name": "naragund", "email": "naragund@gmail.com", "age":45 },
+	  { "name": "google", "email": "kgoogle@gmail.com", "age":8 },
+	  { "name": "youtube", "email": "lyoutube@gmail.com", "age":49 }
+	  ];
+
+
+var names = JSON.parse(JSON.stringify(user_details));
+const div_ele = document.getElementById('div');
+const pagination_element = document.getElementById('pagination');
+
+mySelect.addEventListener("change",selectFun);
+function selectFun() {
+	 var rend = parseInt(document.getElementById("mySelect").value);
+	 DisplayList(user_details, div_ele, rend, current_page, sortBy);
+}
+
+
+function filterUserDetails(user_details) {
+	var filterDetails= [];
+	var filterValue = document.getElementById("myInput").value;
+    
+    for (let i = 0; i < user_details.length; i++) {
+    	if(user_details[i].name && user_details[i].name.indexOf(filterValue) != -1) {
+    		filterDetails.push(user_details[i]);
+    	}		
+	}
+    return filterDetails;
+}
+
+function sortUserDetails(user_details, bool) {
+
+		var sortedUserDetails;
+		//For Name Sorting
+		if(bool==='name') {
+			sortedUserDetails = user_details.sort(GetSortOrder("name"));
+		}
+		//For Email Sorting
+		else if(bool==='email')
+		{
+			sortedUserDetails = user_details.sort(GetSortOrder("email"));
+		} else if(bool==='age') {
+			sortedUserDetails = user_details.sort(GetSortOrder("age"));
+		} else {
+			return user_details;
+		}	
+		return sortedUserDetails;
+}
+
+function GetSortOrder(prop) {    
+    return function(a, b) { 
+    let x=a[prop],
+    	y=b[prop];   
+        if (x > y) {    
+            return 1;    
+        } else if (x < y) {    
+            return -1;    
+        }    
+        return 0;    
+    }    
+}
+
+  
+var sortBy = 'all';
+var current_page = 1;
+var noOfRows = 10;
+var noOfContacts = user_details.length;
+var sortedUserDetails = [];
+var page_count='';
+
+function DisplayList (user_details, div_ele, rows, current_page, sortBy) {
+	sortBy = sortBy;
+	noOfRows = rows;
+	console.log(noOfRows);
+	// Filter user Details
+	var filteredUserDetails = filterUserDetails(user_details);
+	// Sort the Items
+	sortedUserDetails = sortUserDetails(filteredUserDetails, sortBy);
+
+	displayPage(current_page);
+	SetupPagination(user_details, pagination_element, noOfRows);
+}
+
+function displayPage (current_page) {
+
+	div_ele.innerHTML = "";
+
+	current_page--;
+
+	let start = noOfRows * current_page;
+	let end = start + noOfRows;
+	let paginatedItems = sortedUserDetails.slice(start, end);
+
+	for (let i = 0; i < paginatedItems.length; i++) {
+		tbl=generateDynamicTable(paginatedItems);		
+	}
+
+	div_ele.appendChild(tbl);
+}
+
+function generateDynamicTable(pg_itm,rend){
+	if(noOfContacts>0)
+		{	// create the dynamic table usimg createElement().
+			let table = document.createElement("table");
+			table.setAttribute("id","table1");
+			table.style.width = '100%';
+			// retrieve column header ('Name', 'Email', and 'age')
+			var col = []; // define an empty array
+			for (var i = 0; i < noOfContacts; i++) {
+				for (var k in user_details[i]) //where k iterate through the json data and
+				{
+					if (col.indexOf(k) == -1)//checks the array empty or not if it is empty then push the k data to the col array 
+					 {
+						col.push(k);
+
+					 }
+				}
+			}
+			// Create table head .
+			var tHead = document.createElement("thead");
+
+			// Create row for tble head .
+			var hRow = document.createElement("tr");
+
+			//creating extra column
+			
+			// Add  column header to row of table head.
+			for (var i = 0; i <= col.length; i++) {
+				 var th = document.createElement("th");
+					th.setAttribute('className','th');
+					th.innerHTML = col[i];
+
+					if(i==col.length)
+					{
+						th.innerHTML='action';
+					}
+					hRow.appendChild(th);
+			}
+			tHead.appendChild(hRow);
+			table.appendChild(tHead);
+			
+			// create table body .
+			var tBody = document.createElement("tbody");	
+			// Add column header to row of table body.
+			for (let i = 0; i < pg_itm.length; i++) {
+				var bRow = document.createElement("tr");
+				bRow.setAttribute('TagName','trs');
+				 // create row for each record .
+				 
+					for (var j = 0; j <= col.length; j++)
+					{
+
+						var td = document.createElement("td");
+						td.setAttribute('TagName','TD');
+			//opt.appendChild(document.createTextNode('10'));				
+						if(j==col.length)
+						{
+							var button = document.createElement('input');
+			                button.setAttribute('type', 'button');
+			                button.setAttribute('id','button1')
+			                button.setAttribute('value', 'Remove');
+			                button.setAttribute('onclick', 'removeRow(this)');
+			                td.appendChild(button);
+			            }
+						else
+						{
+							td.innerHTML = pg_itm[i][col[j]];
+						}
+						bRow.appendChild(td);
+
+
+						}
+
+					tBody.appendChild(bRow);				
+			}
+
+			table.appendChild(tBody);// add the data to the division container
+			return table;
+		}
+	}
+
+	function removeRow(oButton) {
+		var conf=confirm("Do you Want to Delete this row");
+		if(conf==true)
+		{
+			var empTab = document.getElementById('table1');
+	        empTab.deleteRow(oButton.parentNode.parentNode.rowIndex); // buttton -> td -> tr
+		}
+    }
+var btnNo;
+function SetupPagination (items, wrapper, rows,page,sortBy) 
+{ 
+	let getNextSibling = function (elem) { // function to get the next button 
+		var sibling = elem.nextElementSibling;
+		return sibling;
+	};
+
+	let getPreviousSibling = function (elem) { //functon to get the previous button
+		var sibling = elem.previousElementSibling;
+		return sibling;
+	};
+	wrapper.innerHTML = "";
+	let nextBtn = document.createElement('button');
+	nextBtn.innerText=">>";
+	//nextBtn.setAttribute('className','nextButton');
+	let prevBtn = document.createElement('button');
+	prevBtn.innerText="<<";
+	//prevBtn.setAttribute('className','prevButton');
+    sortBy = sortBy;
+	 btnNo= rows;
+
+	console.log(btnNo);
+	wrapper.appendChild(prevBtn);
+	page_count = Math.ceil(sortedUserDetails.length / btnNo);
+
+	var noOfButtons=page_count;
+	for (let i = 1; i <=noOfButtons; i++) {
+		let btn = PaginationButton(i, items);
+		wrapper.appendChild(btn);
+		wrapper.appendChild(nextBtn);	
+		}
+	let x=0;
+
+	nextBtn.addEventListener('click', function() {	
+		x=x+1
+
+		displayPage(current_page + x);
+		var current_btn1 = document.querySelector('.pagenumbers button.active');
+		let nextBtn = getNextSibling(current_btn1); // getNextSibling fun is to get next button i.e line no 204
+		nextBtn.classList.add('active') //for selected next button active class will be added
+		current_btn1.classList.remove('active'); // once next button is selected, previous button's active class will be removed
+	});
+
+	
+		prevBtn.addEventListener("click", function(){
+			displayPage(current_page--);
+			
+			var current_btn1 = document.querySelector('.pagenumbers button.active');
+			let prvBtn = getPreviousSibling(current_btn1); 
+			prvBtn+1
+			prvBtn.classList.add('active')
+			current_btn1.classList.remove('active');
+		});
+}
+
+function PaginationButton (page, items) {
+	let button = document.createElement('button');
+	button.setAttribute('id','btn');
+	button.innerText = page;
+	if (current_page  == page){
+		button.classList.add('active')
+	};
+		
+	button.addEventListener('click', function () {
+		current_page = page;
+		displayPage(current_page);
+
+
+		var current_btn = document.querySelector('.pagenumbers button.active');
+		current_btn.classList.remove('active');
+		button.classList.add('active');
+	});
+	
+return button;
+}
+
+function searchFun() {
+	DisplayList(user_details, div_ele, noOfRows, current_page,sortBy);
+}
+//
+function showAll(sortBy) {
+	DisplayList(user_details, div_ele, noOfRows, current_page,sortBy);
+}
+function sortByFeature(sortBy) {
+	DisplayList(user_details, div_ele, noOfRows, current_page,sortBy);
+}
+
+DisplayList(user_details, div_ele, noOfRows, current_page);
