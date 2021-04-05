@@ -1,0 +1,149 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: sans-serif;
+}
+#myInput
+{
+  /*background-image: url('download.png');*/
+  background-position: 10px 12px;
+  background-repeat: no-repeat;
+  width: 50%;
+  font-size: 16px;
+  text-align: center;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+body {
+	background: #F3F3F3;
+}
+
+header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 60px;
+	background-color: #EEE;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+main .list {
+	width: 100%;
+	max-width: 768px;
+	background-color: #FFF;
+	border: 1px solid #CCC;
+	margin-top: 25px;
+}
+
+main .list .item {
+	padding: 15px;
+	border-bottom: 1px solid #CCC;
+}
+main .list .item:last-of-type {
+	border-bottom: none;
+}
+main .list .item:hover {
+	background: rgba(0, 0, 0, 0.05);
+}
+
+.pagenumbers {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.pagenumbers button {
+	width: 50px;
+	height: 50px;
+
+	appearance: none;
+	border: none;
+	outline: none;
+	cursor: pointer;
+
+	background-color: #44AAEE;
+
+	margin: 5px;
+	transition: 0.4s;
+
+	color: #FFF;
+	font-size: 18px;
+	text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+}
+
+.pagenumbers button:hover {
+	background-color: #44EEAA;
+}
+
+.pagenumbers button.active {
+	background-color: #44EEAA;
+	box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+table,
+th,
+td {
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+	border-width: 1px 0 0 1px;
+	margin-bottom: 24px;
+	width: 100%;
+	}
+th,
+td {
+	text-align: left;
+	padding:5px 10px;
+}
+
+th {
+	border-width: 0 1px 1px 0;
+	font-weight: bold;
+}
+
+td {
+	border-width: 0 1px 1px 0;
+}
+
+
+
+.btn {
+	margin: 0px;
+	padding: 10px;	
+  	border: none;
+  	outline: none;
+  	padding: 12px 16px;
+  	background-color: #f1f1f1;
+  	cursor: pointer;
+  	position: relative;
+  	overflow: auto;
+}
+
+/* Add a light grey background on mouse-over */
+.btn:hover {
+  background-color: #ddd;
+}
+
+/* Add a dark background to the active button */
+.btn.active {
+  background-color: #666;
+  color: white;
+}
+
+/*css for next previous buttons*/
+
