@@ -129,12 +129,12 @@
         },
         manage_buffer_SendAjax:function(ajax_data)
         {
-  
-
+  //alert(ajax_url);
+//alert(ajax_url);
             $.ajax({ 
                         type:"POST",
-                        async: "false",
-                        url:ajax_url,
+                        async: "true",
+                        url:"http://localhost/Pagination-SearchLibrary/"+ajax_url,
                         data:ajax_data,
                         dataType: 'json',
                         beforeSend()
@@ -148,9 +148,10 @@
                            $("#loading").hide();
 
                         },
-                        error: function() 
+                        error: function(xhr, status, error) 
                         {
-                            
+                              //var err = eval("(" + xhr.responseText + ")");
+                            // alert(err.Message);
                             console.log("Error occured!");
                         }
                     }); 
@@ -221,8 +222,8 @@
 
             $(document).ready(function()
             { 
-                $("head").append('<script type="text/javascript" src="/./Mock_test_1/pagination1.0/simplePagination.js-master/jquery.simplePagination.js"></script>');
-                $("head").append('<link rel="stylesheet" href="/./Mock_test_1/pagination1.0/simplePagination.js-master/simplePagination.css">');
+                $("head").append('<script type="text/javascript" src="http://localhost/Pagination-SearchLibrary/pagination1.0/simplePagination.js-master/jquery.simplePagination.js"></script>');
+                $("head").append('<link rel="stylesheet" href="http://localhost/Pagination-SearchLibrary/pagination1.0/simplePagination.js-master/simplePagination.css">');
 
                 $("#"+pagi_id).pagination(
                 {      
