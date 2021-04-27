@@ -65,15 +65,15 @@ class searching
             }
             
         }
-        $input_new= preg_replace($pattern_date_btn, '', $input_new); 
+        // $input_new= preg_replace($pattern_date_btn, '', $input_new); 
 
-        $pattern_email= "/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/";
-        if(preg_match_all($pattern_email, $input_new, $output) )
-        {
-            $email=$output[0][0];    
-        }
-        $input_new= preg_replace('/\b[\d]+\b/', '', $input_new); 
-        $input_new = preg_replace("/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/",'',$input_new);  
+        // $pattern_email= "/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/";
+        // if(preg_match_all($pattern_email, $input_new, $output) )
+        // {
+        //     $email=$output[0][0];    
+        // }
+        // $input_new= preg_replace('/\b[\d]+\b/', '', $input_new); 
+        // $input_new = preg_replace("/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/",'',$input_new);  
         $pattern_string = "/\b[a-zA-Z_]+\b|\b\w*\d\w*\b/";
         if(preg_match_all($pattern_string, $input_new, $output))
         {   
@@ -86,7 +86,7 @@ class searching
         }
         $data['string']=$expert_and_company; 
         array_push($data['string'], $email); 
-        $data['email']=$email;    
+        $data['email']=$input_new;    
         if($data['string'][0]='' AND $data['email']='')
         {
             echo "string";
@@ -101,10 +101,10 @@ class searching
                     if(!empty($expert_and_company))
                     {
                         $attachment=array();
-                        foreach ($expert_and_company as $key => $value) 
-                        {    
-                            array_push($attachment,''.$value_q['search_col_name'].' LIKE "%'.$value.'%"'); 
-                        }
+                        // foreach ($expert_and_company as $key => $value) 
+                        // {    
+                            array_push($attachment,''.$value_q['search_col_name'].' LIKE "%'.$input_new.'%"'); 
+                        //}
                         $append_string_in_sql=implode(' OR ', $attachment);
                         $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$append_string_in_sql.'';
                         array_push($query_array, $query);  
@@ -118,6 +118,7 @@ class searching
                 if ($value_q['type']=='email') 
                 {   
                     $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].'="'.$email.'"';
+                    //$query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].' LIKE "%'.$input_new.'%"';
                     array_push($query_array, $query);
                     array_push($get_ids,$value_q['get_id']); 
                 }
@@ -230,7 +231,7 @@ class searching
             }
         }
         //if()
-        if($Final_date!=0)
+        if($Final_date!='')
         {
            array_push($append_string_id, "table_name_date.select_column LIKE '%".$Final_date."%'"); 
              
@@ -319,39 +320,39 @@ class searching
     function string_ids($expert_and_company,$string_ids,$type)
     {   
         $ids=array();
-        foreach ($expert_and_company as $key => $value1)
-        {   
-            $value1=strtolower($value1);
-            $pattern='('.$value1.')';
+       
+        // foreach ($expert_and_company as $key => $value1)
+        // {   
+            $value1=strtolower($expert_and_company);
+            $pattern='('.$expert_and_company.')';
             foreach ($string_ids as $key => $value)
             {  
-               if(preg_match_all($pattern, strtolower($string_ids[$key]['name']), $output))
-                {        
+            //    if(preg_match_all($pattern, strtolower($string_ids[$key]['id']), $output))
+            //     {        
                     array_push($ids, $string_ids[$key][$type]);    
-                }
+               // }
             }     
-        }
+        // }
+        
+        // $common_stuff = $this->array_not_unique($ids);
 
-        $common_stuff = $this->array_not_unique($ids);
-
-        $unik_stuff=array_unique($common_stuff);
-
-        $new_ids=array();
-        if(!empty($common_stuff))
-        {   
-            foreach ($unik_stuff as $key => $value) 
-            {
-               array_push($new_ids, $value);
-            }
+        // $unik_stuff=array_unique($common_stuff);
+        // print_r($common_stuff);
+        // $new_ids=array();
+        // if(!empty($common_stuff))
+        // {   
+        //     foreach ($unik_stuff as $key => $value) 
+        //     {
+        //        array_push($new_ids, $value);
+        //     }
             
-        }
-        else
-        {
-            $new_ids=$ids;
-        }
+        // }
+        // else
+        // {
+        //     $new_ids=$ids;
+        // }
 
-        $new_ids=implode(",",$new_ids);
-
+        $new_ids=implode(",",$ids);
         return $new_ids;
     }    
        
