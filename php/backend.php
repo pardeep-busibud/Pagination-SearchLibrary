@@ -1,8 +1,8 @@
 <?php
 
-	require_once('/Applications/MAMP/htdocs/Mock_test_1/search_library/search.php');
+	require_once('../search_library/search.php');
 
-	require_once('/Applications/MAMP/htdocs/Mock_test_1/pagination1.0/prepared_query.php');
+	require_once('../pagination1.0/prepared_query.php');
 
 
 	$application_obj = new ManageApp();
@@ -11,7 +11,7 @@
 
 	$application_obj->Myconnection ($connection_mock_chat,"localhost","root","Mock_test_db");
 	$table_heading_name=array('Name','Email','Phone Number','Gender');
-	$table_column_name=array('name','email','phoneNum','gender');
+	$table_column_name=array('Name','Email','Phone','Gender');
 	$where=1;
 	if($_POST['request'] == 'data')
 	{  
@@ -97,7 +97,8 @@
 
 	        $user='root';
 
-			$connection= mysqli_connect ($host, $user, "root" , $db); 
+			//$connection= mysqli_connect ($host, $user, "root" , $db); 
+			$connection= mysqli_connect ($host, $user, "" , $db); 
 			if (!$connection) 
 			{
 				die ( "no connection found" . mysqli_error($connection));
@@ -181,11 +182,11 @@
 	        $total_length=$total_row[0]['total_row'];
 	        $max_page=ceil($total_length/$data_per_page);
 		        
-		    $query="SELECT * FROM mock_test_tbl WHERE ".$where."  LIMIT ?,?";
+		    $query="SELECT * FROM mock_test_tbl WHERE ".$where."  LIMIT ".$data_from.",".$data_to."";
 		    	
 		    $params = array($data_from,$data_to);
 
-        	$extra_slots_entry= mysqli_prepared_query($connection_mock_chat,$query,"ii",$params);
+        	$extra_slots_entry= mysqli_prepared_query($connection_mock_chat,$query,"",$params);
 		        if($extra_slots_entry)
 		        {
 		            foreach ($extra_slots_entry as $val)
@@ -193,14 +194,14 @@
 		                $res_here=$val;
 		                $res_here['max_page']=$max_page;
 		                $res_here['total_length'] =$total_length;
-		                $Name=$val['name'];
+		                /*$Name=$val['name'];
 		                $Email=$val['email'];
 		                $phoneNum=$val['phone'];
 		                $Gender=$val['gender'];
 		                $res_here['name']=$Name;
 		                $res_here['email']=$Email;
 		                $res_here['phoneNum']=$phoneNum;
-		                $res_here['gender']=$Gender;
+		                $res_here['gender']=$Gender;*/
 		                $response[]=$res_here;   
 		            }
 		        } 
