@@ -117,7 +117,7 @@ class searching
             {
                 if ($value_q['type']=='email') 
                 {   
-                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].'="'.$email.'"';
+                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].' LIKE ?';
                     array_push($query_array, $query);
                     array_push($get_ids,$value_q['get_id']); 
                 }
@@ -213,6 +213,7 @@ class searching
             
         $append_id=array();
         $append_string_id=array();
+        if(!empty($ids_of_string)){
         foreach ($ids_of_string as $key => $value) 
         {   if($string_ids!=0)
             {
@@ -225,10 +226,12 @@ class searching
                
             }
             if($value!='')
-            {
-               array_push($append_string_id, "table_name_".$key.".".$key." IN (".$value.")"); 
+            {   
+               $exp_value= implode(',', $value);
+               array_push($append_string_id, "table_name_".$key.".".$key." IN (".$exp_value.")"); 
             }
         }
+    }
         //if()
         if($Final_date!=0)
         {
@@ -273,6 +276,8 @@ class searching
 
     function get_ids($result,$string,$get_ids)
     {   
+
+       if(!empty($result)){
         for($i=0;$i<sizeof($get_ids);$i++)
         {   
            if(!isset($ids[$get_ids[$i]])) 
@@ -291,8 +296,9 @@ class searching
             $new_e_ids[$get_ids[$i]]=$this->string_ids($string,$ids[$get_ids[$i]],$type=$get_ids[$i]);
             
         }
+      }
 
-        return $new_e_ids;
+        return $result;
          
     }
     function array_not_unique($raw_array) 
