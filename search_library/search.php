@@ -219,7 +219,7 @@ class searching
             {
                $exp_value= explode(',', $value);
                if($value=='')
-               {
+               { 
                     $value_id="".$string_ids."";
                     array_push($append_id, "table_name_".$key.".".$key." IN (".$value_id.")");
                }
