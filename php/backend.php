@@ -59,8 +59,8 @@
 	    if($get_query_and_data['query']!='')
 	    {  
 	    		   
-            $params = array("%".$input."%");
-	        $result = mysqli_prepared_query($connection_mock_chat,$get_query_and_data['query'],"s",$params);     
+            $params = array("%".$input."%","%".$input."%");
+	        $result = mysqli_prepared_query($connection_mock_chat,$get_query_and_data['query'],"ss",$params);    
 	    }
 
 	    $get_ids=$obj->get_ids($result,$get_query_and_data['string'],$get_query_and_data['get_ids']);
@@ -77,7 +77,7 @@
 	    }
 	    else
 	    {
-	        $where='Email LIKE ?';
+	        $where='Email LIKE ? OR Name LIKE ?';
 
 	        $total_data=$application_obj->total_data($connection_mock_chat,$buffer_range,$data_per_page,$where,$params);
 	        $response_data['total_length']=$total_data['total_length'];
@@ -182,9 +182,9 @@
 		    	$types2 = "ii";
 		    }else{
 		    	$params= $params;
-		    	$params2 = array($params[0],$data_from,$data_to);
-		    	$types1 = "s";
-		    	$types2 = "sii";
+		    	$params2 = array($params[0],$params[1],$data_from,$data_to);
+		    	$types1 = "ss";
+		    	$types2 = "ssii";
 
 		    }
 		    // $params=array();

@@ -94,34 +94,11 @@ class searching
 
         foreach ($query_data as $key => $value_q)
         {   
-            if(!empty($data['string']))
-            {
-                if ($value_q['type']=='string') 
-                {  
-                    if(!empty($expert_and_company))
-                    {
-                        $attachment=array();
-                        foreach ($expert_and_company as $key => $value) 
-                        {    
-                            array_push($attachment,''.$value_q['search_col_name'].' LIKE "%'.$value.'%"'); 
-                        }
-                        $append_string_in_sql=implode(' OR ', $attachment);
-                        $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$append_string_in_sql.'';
-                        array_push($query_array, $query);  
-                    }
-                    
-                    array_push($get_ids,$value_q['get_id']);   
-                }
-            }
-            if(!empty($data['email']))
-            {
-                if ($value_q['type']=='email') 
-                {   
-                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].' LIKE ?';
+           
+                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].' LIKE ? OR Name LIKE ?';
                     array_push($query_array, $query);
                     array_push($get_ids,$value_q['get_id']); 
-                }
-            }
+               
 
         }
            
@@ -216,8 +193,8 @@ class searching
         if(!empty($ids_of_string)){
         foreach ($ids_of_string as $key => $value) 
         {   if($string_ids!=0)
-            {
-               $exp_value= explode(',', $value);
+            {  
+               $exp_value= implode(',', $value);
                if($value=='')
                { 
                     $value_id="".$string_ids."";
