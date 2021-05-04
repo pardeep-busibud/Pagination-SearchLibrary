@@ -96,7 +96,7 @@
 	        $host='localhost';
 
 	        $user='root';
-	        $passwrd = ""; // New Field for passing Password according to System's configurations
+	        $passwrd = "root"; // New Field for passing Password according to System's configurations
 			$connection= mysqli_connect ($host, $user, $passwrd , $db); 
 			if (!$connection) 
 			{
