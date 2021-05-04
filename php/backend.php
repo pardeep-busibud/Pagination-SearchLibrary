@@ -1,8 +1,8 @@
 <?php
 
-	require_once('/Applications/MAMP/htdocs/Mock_test_1/search_library/search.php');
+	require_once('../search_library/search.php'); // Changed Path for compatibility with Project name
 
-	require_once('/Applications/MAMP/htdocs/Mock_test_1/pagination1.0/prepared_query.php');
+	require_once('../pagination1.0/prepared_query.php'); // Changed Path for compatibility with Project name
 
 
 	$application_obj = new ManageApp();
@@ -43,8 +43,8 @@
 	    $max_page=0;
 	    $response_data=array();
 	    $obj=new searching($input,$connection_mock_chat);
-	    $keys=array('type','table_name','search_col_name','get_colms','get_id');
-	    $value=array(array('string','login_db.mock_test_tbl','name','null as name,id,null as email,null as phone,null as gender','id'));
+	    $keys=array('type','table_name','search_col_name','search_col_email','get_colms','get_id'); // Added another column for search on basis of Email
+	    $value=array(array('string','mock_test_tbl','name', 'email','null as name,id,null as email,null as phone,null as gender','id')); // Added another column for search on basis of Email
 	    $query_data=array();
 
 	    foreach ($value as $key => $value1) 
@@ -64,9 +64,9 @@
 	    $get_ids=$obj->get_ids($result,$get_query_and_data['string'],$get_query_and_data['get_ids']);
 	   
 	    $where_data=$obj->searching_data($get_ids);
-
-	    $table_from=array("table_name_id","table_name_email");
-	    $table1_to=array("login_db.mock_test_tbl","login_db.mock_test_tbl");
+ 
+	    $table_from=array("table_name_id","table_name_email"); 
+	    $table1_to=array("mock_test_tbl","mock_test_tbl"); // removed dependency of DB Name from Here, passing Table Name is sufficient
 	    $tble1=str_replace($table_from, $table1_to, $where_data);
 
 	    if($tble1=='')
@@ -96,8 +96,8 @@
 	        $host='localhost';
 
 	        $user='root';
-
-			$connection= mysqli_connect ($host, $user, "root" , $db); 
+	        $passwrd = ""; // New Field for passing Password according to System's configurations
+			$connection= mysqli_connect ($host, $user, $passwrd , $db); 
 			if (!$connection) 
 			{
 				die ( "no connection found" . mysqli_error($connection));
@@ -193,10 +193,10 @@
 		                $res_here=$val;
 		                $res_here['max_page']=$max_page;
 		                $res_here['total_length'] =$total_length;
-		                $Name=$val['name'];
-		                $Email=$val['email'];
-		                $phoneNum=$val['phone'];
-		                $Gender=$val['gender'];
+		                $Name=$val['Name']; // Corrected Field name as per Column name stored in DB Table
+		                $Email=$val['Email']; // Corrected Field name as per Column name stored in DB Table
+		                $phoneNum=$val['Phone']; // Corrected Field name as per Column name stored in DB Table
+		                $Gender=$val['Gender']; // Corrected Field name as per Column name stored in DB Table
 		                $res_here['name']=$Name;
 		                $res_here['email']=$Email;
 		                $res_here['phoneNum']=$phoneNum;
