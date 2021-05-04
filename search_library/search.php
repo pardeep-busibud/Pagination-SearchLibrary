@@ -98,18 +98,23 @@ class searching
             {
                 if ($value_q['type']=='string') 
                 {  
+                    $attachment=array();
                     if(!empty($expert_and_company))
                     {
-                        $attachment=array();
+                        
                         foreach ($expert_and_company as $key => $value) 
                         {    
+                            //$value_q['search_col_name'] = explode(',', $value_q['search_col_name']);
                             array_push($attachment,''.$value_q['search_col_name'].' LIKE "%'.$value.'%"'); 
+                            
                         }
-                        $append_string_in_sql=implode(' OR ', $attachment);
-                        $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$append_string_in_sql.'';
-                        array_push($query_array, $query);  
+
                     }
-                    
+                    // Code for searching Rows on Basis of both Name and email
+                    array_push($attachment,''.$value_q['search_col_email'].' LIKE "%'.$this->input.'%"'); 
+                    $append_string_in_sql=implode(' OR ', $attachment);
+                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$append_string_in_sql.'';
+                    array_push($query_array, $query);  
                     array_push($get_ids,$value_q['get_id']);   
                 }
             }
