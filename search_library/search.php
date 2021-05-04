@@ -29,7 +29,7 @@ class searching
         if(preg_match_all($pattern_date_btn, $input_new, $output) )
         {
             $date_btn=$output[0][0]; 
-              
+
         }
         if ($date_btn!='')
         {
@@ -57,7 +57,7 @@ class searching
             {
                 $date_from=date("Y-m-d", strtotime("first day of previous month"));
                 //var_dump($date_from);
-    
+
                 $date_to= date("Y-m-d", strtotime("last day of previous month"));
                 //var_dump($date_to);
                 $this->date_filter['month_from']="".$date_from."";
@@ -82,9 +82,9 @@ class searching
             {   
                 array_push($expert_and_company, $name_ex_comp[$i]); 
             }
-             
+
         }
-        $data['string']=$expert_and_company; 
+        $data['string']=$expert_and_company;  
         array_push($data['string'], $email); 
         $data['email']=$email;    
         if($data['string'][0]='' AND $data['email']='')
@@ -122,9 +122,8 @@ class searching
                     array_push($get_ids,$value_q['get_id']); 
                 }
             }
-
         }
-           
+
         $data['sub_querys']=$query_array;
         $data['get_ids']=$get_ids;
         $string_query=implode(' UNION ', $query_array); 
@@ -133,7 +132,7 @@ class searching
     }
     function searching_data($ids_of_string)
     {   
-        
+
         $Date1='';
         $month='';
         $year='';
@@ -145,98 +144,98 @@ class searching
         $append_where_data='';
         $pattern_date="/\d{4}[-\/\.](\d{2}|\d{1})[-\/\.](\d{2}|\d{1})|(\d{2}|\d{1})[-\/\.](\d{2}|\d{1})[-\/\.]\d{4}|(\d{2}|\d{1})[-\/\.](\d{2}|\d{1})/";
         if (preg_match_all($pattern_date, $this->input, $matches_out)) 
-        {   $date=$matches_out[0][0];
+            {   $date=$matches_out[0][0];
             //$new_date=split('[/.-]',$date);
-            $new_date=preg_split('/[- :\/]/',$date);
+                $new_date=preg_split('/[- :\/]/',$date);
             //var_dump($new_date);
-            $length=strlen($date);
-            if($length<=5)
-            {
-                $month=$new_date[0];
-                $Date1=$new_date[1];  
-                $year='2019';
-                if($month>12)
-                {    
-                    $month='';   
-                }
-                if($Date1>31)
+                $length=strlen($date);
+                if($length<=5)
                 {
-                    $Date1='';
-                }
+                    $month=$new_date[0];
+                    $Date1=$new_date[1];  
+                    $year='2019';
+                    if($month>12)
+                    {    
+                        $month='';   
+                    }
+                    if($Date1>31)
+                    {
+                        $Date1='';
+                    }
                     
-            }
-            else
-            {
-                $year=$new_date[2];
-                $month=$new_date[1];
-                $Date1=$new_date[0];
-                if($month>12)
-                {
-                    $month='';
                 }
-                if( $Date1>31)
+                else
                 {
-                    $Date1='';
+                    $year=$new_date[2];
+                    $month=$new_date[1];
+                    $Date1=$new_date[0];
+                    if($month>12)
+                    {
+                        $month='';
+                    }
+                    if( $Date1>31)
+                    {
+                        $Date1='';
+                    }
+                    if(strlen($new_date[0])==4)
+                    {
+                        $year=$new_date[0];
+                        $Date1=$new_date[2];
+                    }
+
                 }
-                if(strlen($new_date[0])==4)
+                if($Date1==''||$month=='')
                 {
-                    $year=$new_date[0];
-                    $Date1=$new_date[2];
+                    echo json_encode("Invalid Date or month");
+                    die();
                 }
-                     
-            }
-            if($Date1==''||$month=='')
-            {
-                echo json_encode("Invalid Date or month");
-                die();
-            }
-            else
-            {
-                $Final_date=$year."-".$month."-".$Date1;
-                 
-            }
-           
-        } 
-        
-        $new_input= preg_replace('/\d{4}[-\/\.]\d{2}[-\/\.]\d{2}|\d{2}[-\/\.]\d{2}[-\/\.]\d{4}|\d{2}[-\/\.]\d{2}/', '', $this->input);
+                else
+                {
+                    $Final_date=$year."-".$month."-".$Date1;
+
+                }
+
+            } 
+
+            $new_input= preg_replace('/\d{4}[-\/\.]\d{2}[-\/\.]\d{2}|\d{2}[-\/\.]\d{2}[-\/\.]\d{4}|\d{2}[-\/\.]\d{2}/', '', $this->input);
         //manu remove 08/06/20
         //$pattern_hid_eid="/\b[\d]+\b/";
         //manu remove 08/06/20
         //manu add 08/06/20
-        $pattern_hid_eid="/\b^\d+\b/";
+            $pattern_hid_eid="/\b^\d+\b/";
         //manu added 08/06/20
-        if (preg_match_all($pattern_hid_eid, $new_input, $matches_out)) 
-        {   
-            $string_ids=$matches_out[0][0];
-            $string_ids=intval($string_ids);
-        }
+            if (preg_match_all($pattern_hid_eid, $new_input, $matches_out)) 
+            {   
+                $string_ids=$matches_out[0][0];
+                $string_ids=intval($string_ids);
+            }
             
-        $append_id=array();
-        $append_string_id=array();
-        foreach ($ids_of_string as $key => $value) 
-        {   if($string_ids!=0)
-            {
-               $exp_value= explode(',', $value);
-               if($value=='')
-               {
-                    $value_id="".$string_ids."";
-                    array_push($append_id, "table_name_".$key.".".$key." IN (".$value_id.")");
+            $append_id=array();
+            $append_string_id=array();
+            foreach ($ids_of_string as $key => $value) 
+                {   if($string_ids!=0)
+                    {
+                       $exp_value= explode(',', $value);
+                       if($value=='')
+                       {
+                        $value_id="".$string_ids."";
+                        array_push($append_id, "table_name_".$key.".".$key." IN (".$value_id.")");
+                    }
+
+                }
+                if($value!='')
+                {
+                   array_push($append_string_id, "table_name_".$key.".".$key." IN (".$value.")"); 
                }
-               
-            }
-            if($value!='')
-            {
-               array_push($append_string_id, "table_name_".$key.".".$key." IN (".$value.")"); 
-            }
-        }
+           }
         //if()
-        if($Final_date!=0)
-        {
-           array_push($append_string_id, "table_name_date.select_column LIKE '%".$Final_date."%'"); 
-             
-        }
-        if($this->date_filter['today']!='')
-        {
+           if($Final_date!=0)
+           {
+               array_push($append_string_id, "table_name_date.select_column LIKE '%".$Final_date."%'"); 
+
+           }
+           if($this->date_filter['today']!='')
+           {
 
             array_push($append_string_id, "table_name_date.select_column LIKE '%".$this->date_filter['today']."%'"); 
         }
@@ -252,7 +251,7 @@ class searching
 
         if(!empty($append_id))
         {
-        
+
             $append_where_data=implode(' OR ',$append_id);
             $append_where_data='('.$append_where_data.')';
         }
@@ -276,84 +275,87 @@ class searching
         for($i=0;$i<sizeof($get_ids);$i++)
         {   
            if(!isset($ids[$get_ids[$i]])) 
-            {
-                $ids[$get_ids[$i]] = array();
-            }
+           {
+            $ids[$get_ids[$i]] = array();
+        }
+        if (is_array($result) || is_object($result)) {
             foreach($result as $key => $value)
             {
                 if(isset($result[$key][$get_ids[$i]]))
                 {   
                     $ids[$get_ids[$i]][$key][$get_ids[$i]]=$result[$key][$get_ids[$i]];
                     $ids[$get_ids[$i]][$key]['name']=$result[$key]['name'];
+                    $ids[$get_ids[$i]][$key]['email']=$result[$key]['email'];
                 }      
             } 
-
-            $new_e_ids[$get_ids[$i]]=$this->string_ids($string,$ids[$get_ids[$i]],$type=$get_ids[$i]);
-            
         }
 
-        return $new_e_ids;
-         
-    }
-    function array_not_unique($raw_array) 
-    {   
-        $dupes = array();
-        natcasesort($raw_array);
-        reset($raw_array);
-        $old_key   = NULL;
-        $old_value = NULL;
-        foreach ($raw_array as $key => $value) 
-        {
-            if ($value === NULL) { continue; }
-            if (strcasecmp($old_value, $value) === 0) 
-            {
-                $dupes[$old_key] = $old_value;
-                $dupes[$key]     = $value;
-            }
-            $old_value = $value;
-            $old_key   = $key;
-        }
-        return $dupes;
+        $new_e_ids[$get_ids[$i]]=$this->string_ids($string,$ids[$get_ids[$i]],$type=$get_ids[$i]);
+
     }
 
-    function string_ids($expert_and_company,$string_ids,$type)
-    {   
-        $ids=array();
-        foreach ($expert_and_company as $key => $value1)
-        {   
-            $value1=strtolower($value1);
-            $pattern='('.$value1.')';
-            foreach ($string_ids as $key => $value)
-            {  
-               if(preg_match_all($pattern, strtolower($string_ids[$key]['name']), $output))
-                {        
-                    array_push($ids, $string_ids[$key][$type]);    
-                }
-            }     
-        }
+    return $new_e_ids;
 
-        $common_stuff = $this->array_not_unique($ids);
-
-        $unik_stuff=array_unique($common_stuff);
-
-        $new_ids=array();
-        if(!empty($common_stuff))
-        {   
-            foreach ($unik_stuff as $key => $value) 
-            {
-               array_push($new_ids, $value);
-            }
-            
-        }
-        else
+}
+function array_not_unique($raw_array) 
+{   
+    $dupes = array();
+    natcasesort($raw_array);
+    reset($raw_array);
+    $old_key   = NULL;
+    $old_value = NULL;
+    foreach ($raw_array as $key => $value) 
+    {
+        if ($value === NULL) { continue; }
+        if (strcasecmp($old_value, $value) === 0) 
         {
-            $new_ids=$ids;
+            $dupes[$old_key] = $old_value;
+            $dupes[$key]     = $value;
         }
+        $old_value = $value;
+        $old_key   = $key;
+    }
+    return $dupes;
+}
 
-        $new_ids=implode(",",$new_ids);
+function string_ids($expert_and_company,$string_ids,$type)
+{   
+    $ids=array();
+    foreach ($expert_and_company as $key => $value1)
+    {   
+        $value1=strtolower($value1);
+        $pattern='('.$value1.')';
+        foreach ($string_ids as $key => $value)
+        {  
+           if(preg_match_all($pattern, strtolower($string_ids[$key]['name']), $output))
+           {        
+            array_push($ids, $string_ids[$key][$type]);    
+        }
+    }     
+}
 
-        return $new_ids;
-    }    
-       
+$common_stuff = $this->array_not_unique($ids);
+
+$unik_stuff=array_unique($common_stuff);
+
+$new_ids=array();
+if(!empty($common_stuff))
+{   
+    foreach ($unik_stuff as $key => $value) 
+    {
+       array_push($new_ids, $value);
+   }
+
+}
+else
+{
+    $new_ids=$ids;
+}
+
+$new_ids=implode(",",$new_ids);
+
+return $new_ids;
+}    
+
 }
 ?>

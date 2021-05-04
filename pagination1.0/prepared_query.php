@@ -33,7 +33,8 @@ function mysqli_prepared_query($link,$sql,$typeDef = FALSE,$params = FALSE)
     
     $result = array(); 
     foreach($params as $queryKey => $query)
-    { if($bindParams)
+    { 
+      if($bindParams)
       {
         foreach($bindParams as $paramKey => $value)
         { 
@@ -48,7 +49,7 @@ function mysqli_prepared_query($link,$sql,$typeDef = FALSE,$params = FALSE)
           $rowReferences = array(); 
           while ($field = mysqli_fetch_field($resultMetaData)) { 
             $rowReferences[] = &$stmtRow[$field->name]; 
-          }                                
+          }                               
           mysqli_free_result($resultMetaData); 
           $bindResultMethod = new ReflectionMethod('mysqli_stmt', 'bind_result'); 
           $bindResultMethod->invokeArgs($stmt, $rowReferences); 
