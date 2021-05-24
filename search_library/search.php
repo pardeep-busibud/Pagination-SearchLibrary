@@ -117,7 +117,9 @@ class searching
             {
                 if ($value_q['type']=='email') 
                 {   
-                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].'="'.$email.'"';
+                    //$query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].'="'.$email.'"';
+					$query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].' LIKE "%'.$email.'%"';
+					
                     array_push($query_array, $query);
                     array_push($get_ids,$value_q['get_id']); 
                 }
@@ -213,6 +215,7 @@ class searching
             
         $append_id=array();
         $append_string_id=array();
+		
         foreach ($ids_of_string as $key => $value) 
         {   if($string_ids!=0)
             {
