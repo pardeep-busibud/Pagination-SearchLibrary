@@ -73,7 +73,7 @@ class searching
             $email=$output[0][0];    
         }
         $input_new= preg_replace('/\b[\d]+\b/', '', $input_new); 
-        $input_new = preg_replace("/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/",'',$input_new);  
+        //$input_new = preg_replace("/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/",'',$input_new);  
         $pattern_string = "/\b[a-zA-Z_]+\b|\b\w*\d\w*\b/";
         if(preg_match_all($pattern_string, $input_new, $output))
         {   
@@ -284,7 +284,7 @@ class searching
                 if(isset($result[$key][$get_ids[$i]]))
                 {   
                     $ids[$get_ids[$i]][$key][$get_ids[$i]]=$result[$key][$get_ids[$i]];
-                    $ids[$get_ids[$i]][$key]['name']=$result[$key]['name'];
+                    $ids[$get_ids[$i]][$key]['Name']=$result[$key]['Name'];
                 }      
             } 
 
@@ -325,7 +325,7 @@ class searching
             $pattern='('.$value1.')';
             foreach ($string_ids as $key => $value)
             {  
-               if(preg_match_all($pattern, strtolower($string_ids[$key]['name']), $output))
+               if(preg_match_all($pattern, strtolower($string_ids[$key]['Name']), $output))
                 {        
                     array_push($ids, $string_ids[$key][$type]);    
                 }

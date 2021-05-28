@@ -143,7 +143,7 @@
                         },
                         success(data)
                         {    
-                            
+                            //alert('dsf');
                            manage_buffer.manage_buffer_AddData(data);
                            $("#loading").hide();
 
@@ -221,8 +221,8 @@
 
             $(document).ready(function()
             { 
-                $("head").append('<script type="text/javascript" src="/./Mock_test_1/pagination1.0/simplePagination.js-master/jquery.simplePagination.js"></script>');
-                $("head").append('<link rel="stylesheet" href="/./Mock_test_1/pagination1.0/simplePagination.js-master/simplePagination.css">');
+                $("head").append('<script type="text/javascript" src="pagination1.0/simplePagination.js-master/jquery.simplePagination.js"></script>');
+                $("head").append('<link rel="stylesheet" href="pagination1.0/simplePagination.js-master/simplePagination.css">');
 
                 $("#"+pagi_id).pagination(
                 {      
@@ -345,8 +345,6 @@
                 var value_of_id='';
                 $.each(manage_buffer.table_coulmn_names, function(index,valueOfColumn)
                 {                       
-                    
-
                     if(valueOfColumn=='id')
                     {
                         value_of_id=value[valueOfColumn];
@@ -413,10 +411,11 @@
                 manage_buffer.manage_buffer_SendAjax(ajax_data,ajax_url);
             } 
         }
+
         $(document).on("keyup","#txt-search", function() 
         {   
-
-        
+            
+            
             var div_id=$(this).attr('selectd_div');
             var div_data=div_data_container[div_id];
            
