@@ -4,11 +4,13 @@ class searching
     public $input;
     public $connection6;
     public $date_filter=array();
+	
     function __construct($input,$connection6) 
     {
         $this->input = $input;
         $this->connection6=$connection6;
     }
+	
     function get_query_and_data($query_data)
     {    
         $email='';
@@ -68,10 +70,12 @@ class searching
         $input_new= preg_replace($pattern_date_btn, '', $input_new); 
 
         $pattern_email= "/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/";
-        if(preg_match_all($pattern_email, $input_new, $output) )
+		//$pattern_email= "/\b[-0-9a-zA-Z.+_]\b/";
+        /*if(preg_match_all($pattern_email, $input_new, $output) )
         {
             $email=$output[0][0];    
-        }
+        }*/
+		$email = $input_new;
         $input_new= preg_replace('/\b[\d]+\b/', '', $input_new); 
         $input_new = preg_replace("/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/",'',$input_new);  
         $pattern_string = "/\b[a-zA-Z_]+\b|\b\w*\d\w*\b/";
@@ -107,6 +111,8 @@ class searching
                         }
                         $append_string_in_sql=implode(' OR ', $attachment);
                         $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$append_string_in_sql.'';
+						
+						echo $query;
                         array_push($query_array, $query);  
                     }
                     

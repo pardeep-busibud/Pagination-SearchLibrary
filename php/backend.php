@@ -44,7 +44,7 @@
 	    $response_data=array();
 	    $obj=new searching($input,$connection_mock_chat);
 	    $keys=array('type','table_name','search_col_name','get_colms','get_id');
-	    $value=array(array('email','Mock_test_db.mock_test_tbl','Email','null as name,id,null as email,null as phone,null as gender','id'));
+	    $value=array(array('string','Mock_test_db.mock_test_tbl','Name','null as name,id,null as email,null as phone,null as gender','id'));
 	    $query_data=array();
 
 	    foreach ($value as $key => $value1) 
@@ -52,7 +52,7 @@
 	        $query_details=array_combine($keys, $value1);
 	        array_push($query_data, $query_details);
 	    }
-
+		
 	    $get_query_and_data=$obj->get_query_and_data($query_data); 
 	    $result=array();
 	    

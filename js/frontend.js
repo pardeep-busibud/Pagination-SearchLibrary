@@ -1,6 +1,6 @@
 const manage_html = {
 	make_html:function(){
-		var ajax_url='/./Mock_test_1/php/backend.php?XDEBUG_SESSION_START=sublime.xdebug';
+		var ajax_url='/./Pagination-SearchLibrary/php/backend.php?XDEBUG_SESSION_START=sublime.xdebug';
 		var ajax_data={};
 		var table_div_id='#main_div';
 		var input_value='';
