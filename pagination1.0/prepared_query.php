@@ -24,7 +24,7 @@ function mysqli_prepared_query($link,$sql,$typeDef = FALSE,$params = FALSE)
       } 
       array_unshift($bindParamsReferences,$typeDef); 
       $bindParamsMethod = new ReflectionMethod('mysqli_stmt', 'bind_param'); 
-      $bindParamsMethod->invokeArgs($stmt,$bindParamsReferences); 
+      $bindParamsMethod -> invokeArgs($stmt,$bindParamsReferences); 
     }
     else
     {
