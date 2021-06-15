@@ -71,7 +71,6 @@ class searching
         if(preg_match_all($pattern_email, $input_new, $output) )
         {
             $email=$output[0][0];
-            // Nishant - Change here the response
             // Set type - email when search any email
             $query_data[0]['type']="email";
             $query_data[0]['search_col_name'] = 'email';

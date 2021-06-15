@@ -1,14 +1,14 @@
 <?php
-	// Nishant - change the path
+	// change the path
 	require_once('/var/www/html/Mock_test_1/search_library/search.php');
-	// Nishant - change the path
+	// change the path
 	require_once('/var/www/html/Mock_test_1/pagination1.0/prepared_query.php');
 
 
 	$application_obj = new ManageApp();
 
 	$connection_mock_chat = NULL;
-	// Nishant - Change the DB name
+	// Change the DB name
 	$application_obj->Myconnection ($connection_mock_chat,"localhost","root","mock_test_db");
 	$table_heading_name=array('Name','Email','Phone Number','Gender');
 	$table_column_name=array('name','email','phoneNum','gender');
@@ -46,7 +46,7 @@
 		
 	    $keys=array('type','table_name','search_col_name','get_colms','get_id');
 		
-		// Nishant - Change here the response
+		// Change here the response
 		// OLD $value=array(array('string','login_db.mock_test_tbl','name','null as name,id,null as email,null as phone,null as gender','id'));
 		$value=array(array('string','mock_test_tbl','name','name  as name,id,email as email,phone as phone,gender as gender','id'));
 	    $query_data=array();
@@ -72,7 +72,7 @@
 		
 
 	    $table_from=array("table_name_id","table_name_email");
-		// Nishant - Change here the response
+		// Change here the response
 		//OLD: $table1_to=array("login_db.mock_test_tbl","login_db.mock_test_tbl");
 		$table1_to=array("mock_test_tbl","mock_test_tbl");
 		$tble1=str_replace($table_from, $table1_to, $where_data);
@@ -82,7 +82,7 @@
 	    {
 			$where=$tble1;
 	        $total_data=array();
-			// Nishant - Change here the response
+			// Change here the response
 	        echo json_encode($result);
 	    }
 	    else
