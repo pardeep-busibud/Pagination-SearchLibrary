@@ -1,15 +1,15 @@
 <?php
-
-	require_once('/Applications/MAMP/htdocs/Mock_test_1/search_library/search.php');
-
-	require_once('/Applications/MAMP/htdocs/Mock_test_1/pagination1.0/prepared_query.php');
+	// Nishant - change the path
+	require_once('/var/www/html/Mock_test_1/search_library/search.php');
+	// Nishant - change the path
+	require_once('/var/www/html/Mock_test_1/pagination1.0/prepared_query.php');
 
 
 	$application_obj = new ManageApp();
 
 	$connection_mock_chat = NULL;
-
-	$application_obj->Myconnection ($connection_mock_chat,"localhost","root","Mock_test_db");
+	// Nishant - Change the DB name
+	$application_obj->Myconnection ($connection_mock_chat,"localhost","root","mock_test_db");
 	$table_heading_name=array('Name','Email','Phone Number','Gender');
 	$table_column_name=array('name','email','phoneNum','gender');
 	$where=1;
@@ -24,7 +24,7 @@
 	    $where = 1;
 	    $response_data=array();
 	    $total_data=$application_obj->total_data($connection_mock_chat,$buffer_range,$data_per_page,$where);
-	    $response_data['total_length']=$total_data['total_length'];
+		$response_data['total_length']=$total_data['total_length'];
 	    $response_data['total_data']=$total_data['total_data'];
 	    $response_data['max_page']=$total_data['max_page'];
 	    $response_data['table_heading_name']=$table_heading_name;
@@ -43,8 +43,12 @@
 	    $max_page=0;
 	    $response_data=array();
 	    $obj=new searching($input,$connection_mock_chat);
+		
 	    $keys=array('type','table_name','search_col_name','get_colms','get_id');
-	    $value=array(array('string','login_db.mock_test_tbl','name','null as name,id,null as email,null as phone,null as gender','id'));
+		
+		// Nishant - Change here the response
+		// OLD $value=array(array('string','login_db.mock_test_tbl','name','null as name,id,null as email,null as phone,null as gender','id'));
+		$value=array(array('string','mock_test_tbl','name','name  as name,id,email as email,phone as phone,gender as gender','id'));
 	    $query_data=array();
 
 	    foreach ($value as $key => $value1) 
@@ -55,29 +59,36 @@
 
 	    $get_query_and_data=$obj->get_query_and_data($query_data); 
 	    $result=array();
+
+		
 	   
 	    if($get_query_and_data['query']!='')
 	    {  
 	        $result=mysqli_prepared_query($connection_mock_chat,$get_query_and_data['query'],"",$params);        
 	    }
-
-	    $get_ids=$obj->get_ids($result,$get_query_and_data['string'],$get_query_and_data['get_ids']);
-	   
-	    $where_data=$obj->searching_data($get_ids);
+		
+		$get_ids=$obj->get_ids($result,$get_query_and_data['string'],$get_query_and_data['get_ids']);
+		$where_data=$obj->searching_data($get_ids);
+		
 
 	    $table_from=array("table_name_id","table_name_email");
-	    $table1_to=array("login_db.mock_test_tbl","login_db.mock_test_tbl");
-	    $tble1=str_replace($table_from, $table1_to, $where_data);
+		// Nishant - Change here the response
+		//OLD: $table1_to=array("login_db.mock_test_tbl","login_db.mock_test_tbl");
+		$table1_to=array("mock_test_tbl","mock_test_tbl");
+		$tble1=str_replace($table_from, $table1_to, $where_data);
+		
 
 	    if($tble1=='')
 	    {
+			$where=$tble1;
 	        $total_data=array();
-	        echo json_encode($total_data);
+			// Nishant - Change here the response
+	        echo json_encode($result);
 	    }
 	    else
 	    {
 	        $where=$tble1;
-
+			
 	        $total_data=$application_obj->total_data($connection_mock_chat,$buffer_range,$data_per_page,$where);
 	        $response_data['total_length']=$total_data['total_length'];
 	        $response_data['total_data']=$total_data['total_data'];

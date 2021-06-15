@@ -70,7 +70,11 @@ class searching
         $pattern_email= "/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/";
         if(preg_match_all($pattern_email, $input_new, $output) )
         {
-            $email=$output[0][0];    
+            $email=$output[0][0];
+            // Nishant - Change here the response
+            // Set type - email when search any email
+            $query_data[0]['type']="email";
+            $query_data[0]['search_col_name'] = 'email';
         }
         $input_new= preg_replace('/\b[\d]+\b/', '', $input_new); 
         $input_new = preg_replace("/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/",'',$input_new);  
