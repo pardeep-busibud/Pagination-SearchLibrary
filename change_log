@@ -1,0 +1,36 @@
+backend.php
+-----------
+
+Line 2,5,11  - Database connection and project path setup 
+Line 49 - remove the db name "login_db" as mismatch into the name of DB's , and use the table name directly.
+Line 75 - remove the db name "login_db" as mismatch into the name of DB's , and use the table name directly.
+Line 85 - Pass result in json_encode
+
+
+search.php
+-----------
+Line 65 -  Set type and Search column name make it, email when search any email
+
+
+library1.0.js
+-------------
+Line 330 - Add loader html 
+Line 449 - Hide loader
+Line 454 - Show loader
+Line 471 - Hide loader
+
+
+index.html
+------------
+Line 11 - add css file
+
+style.css
+------------
+New css file
+
+// NOTE : I changed the all table coulum name in small case, as it workes with windows and will 
+not work with linux, from code we are matching the field, but we are getting it as null always, 
+Result of this all data inside table comes as "null".
+I'll add the screenshot of debugger
+
+So use the mock_test_db.sql from directory

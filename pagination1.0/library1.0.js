@@ -327,7 +327,8 @@
             });
             if(manage_buffer.search_div_counter==0)
             {
-                var table='<div class="panel-body" ><div class="row search_div" id="search_div"><div class="col-md-6"><div id="date_filter"><button id="today" class="btn btn-primary date_btn" value="today">Today</button> <button id="last_week" class="btn btn-primary date_btn" value="last_week">Last Week</button> <button id="last_month" class="btn btn-primary date_btn" value="last_month">Last Month</button></div></div><div class="col-md-6"><div class="form-group" id="search_id"><input type="input" class="form-control input-lg" id="txt-search" selectd_div='+table_div_id+' placeholder="Filter results"></div></div></div><div style="overflow-x:auto;"><table class="table table-bordered table-custom" id = "tbodyid_data_upcoming"><thead><tr>'+tth+'</tr></thead><tbody id='+tb_id_name+'></tbody></table></div><div id="data_not_found"></div><div class="pagination_page" style="margin-bottom: 50px"><ul id='+pagination_id_name+' class="pagination-lg pull-right"></ul></div></div>';
+                // Add loader 
+                var table='<div class="panel-body" ><div class="row search_div" id="search_div"><div class="col-md-6"><div id="date_filter"><button id="today" class="btn btn-primary date_btn" value="today">Today</button> <button id="last_week" class="btn btn-primary date_btn" value="last_week">Last Week</button> <button id="last_month" class="btn btn-primary date_btn" value="last_month">Last Month</button></div></div><div class="col-md-6"><div class="form-group" id="search_id"><input type="input" class="form-control input-lg" id="txt-search" selectd_div='+table_div_id+' placeholder="Filter results"><div class="loader"></div></div></div></div><div style="overflow-x:auto;"><table class="table table-bordered table-custom" id = "tbodyid_data_upcoming"><thead><tr>'+tth+'</tr></thead><tbody id='+tb_id_name+'></tbody></table></div><div id="data_not_found"></div><div class="pagination_page" style="margin-bottom: 50px"><ul id='+pagination_id_name+' class="pagination-lg pull-right"></ul></div></div>';
             }
          
             $("#"+tb_id_name+" tr").remove();
@@ -445,11 +446,13 @@
                     var search_enable_or_desiable=true;
                     var reload='reload';
                     make_table_pagination(ajax_url,ajax_data,table_div_id,data_per_page,search_enable_or_desiable,input_value,type,reload);
-                
-                
+                    // Change here hide loader
+                    $('.loader').css('display', 'none');
             }
             else
             {
+                // Change here show loader
+                $('.loader').css('display', 'block');
                 this.ajax_timeout = setTimeout(function()
                 {   
                     
@@ -465,7 +468,8 @@
                     var data_per_page=div_data['data_per_page'];
                     var search_enable_or_desiable=true;
                     make_table_pagination(ajax_url,ajax_data,table_div_id,data_per_page,search_enable_or_desiable,input_value,type);
-
+                    // Change here hide loader
+                    $('.loader').css('display', 'none');
                     
                 }, 1500);
             }
