@@ -86,43 +86,20 @@ class searching
         }
         $data['string']=$expert_and_company; 
         array_push($data['string'], $email); 
-        $data['email']=$email;    
-        if($data['string'][0]='' AND $data['email']='')
+        $data['Email']=$email;    
+        if($data['string'][0]='' AND $data['Email']='')
         {
             echo "string";
         }
 
         foreach ($query_data as $key => $value_q)
         {   
-            if(!empty($data['string']))
-            {
-                if ($value_q['type']=='string') 
-                {  
-                    if(!empty($expert_and_company))
-                    {
-                        $attachment=array();
-                        foreach ($expert_and_company as $key => $value) 
-                        {    
-                            array_push($attachment,''.$value_q['search_col_name'].' LIKE "%'.$value.'%"'); 
-                        }
-                        $append_string_in_sql=implode(' OR ', $attachment);
-                        $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$append_string_in_sql.'';
-                        array_push($query_array, $query);  
-                    }
-                    
-                    array_push($get_ids,$value_q['get_id']);   
-                }
-            }
-            if(!empty($data['email']))
-            {
-                if ($value_q['type']=='email') 
-                {   
-                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].'="'.$email.'"';
-                    array_push($query_array, $query);
-                    array_push($get_ids,$value_q['get_id']); 
-                }
-            }
+              
+            $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].' LIKE ? OR Name LIKE ?';
 
+            array_push($query_array, $query);
+            array_push($get_ids,$value_q['get_id']); 
+                
         }
            
         $data['sub_querys']=$query_array;
@@ -213,23 +190,27 @@ class searching
             
         $append_id=array();
         $append_string_id=array();
-        foreach ($ids_of_string as $key => $value) 
-        {   if($string_ids!=0)
-            {
-               $exp_value= explode(',', $value);
-               if($value=='')
-               {
-                    $value_id="".$string_ids."";
-                    array_push($append_id, "table_name_".$key.".".$key." IN (".$value_id.")");
-               }
-               
-            }
-            if($value!='')
-            {
-               array_push($append_string_id, "table_name_".$key.".".$key." IN (".$value.")"); 
+        if(!empty($ids_of_string)){
+            foreach ($ids_of_string as $key => $value) 
+            {   
+                if($string_ids!=0)
+                {
+                    $exp_value= implode(',', $value);
+                    if($value=='')
+                    {
+                        $value_id="".$string_ids."";
+                        array_push($append_id, "table_name_".$key.".".$key." IN (".$value_id.")");
+                    }
+                   
+                }
+                if($value!='')
+                {
+                    $exp_value= implode(',', $value);
+                    array_push($append_string_id, "table_name_".$key.".".$key." IN (".$exp_value.")"); 
+                }
             }
         }
-        //if()
+        
         if($Final_date!=0)
         {
            array_push($append_string_id, "table_name_date.select_column LIKE '%".$Final_date."%'"); 
@@ -273,26 +254,30 @@ class searching
 
     function get_ids($result,$string,$get_ids)
     {   
-        for($i=0;$i<sizeof($get_ids);$i++)
-        {   
-           if(!isset($ids[$get_ids[$i]])) 
-            {
-                $ids[$get_ids[$i]] = array();
-            }
-            foreach($result as $key => $value)
-            {
-                if(isset($result[$key][$get_ids[$i]]))
-                {   
-                    $ids[$get_ids[$i]][$key][$get_ids[$i]]=$result[$key][$get_ids[$i]];
-                    $ids[$get_ids[$i]][$key]['name']=$result[$key]['name'];
-                }      
-            } 
+        if(!empty($result)){
+            for($i=0;$i<sizeof($get_ids);$i++)
+            {   
 
-            $new_e_ids[$get_ids[$i]]=$this->string_ids($string,$ids[$get_ids[$i]],$type=$get_ids[$i]);
-            
+                if(!isset($ids[$get_ids[$i]])) 
+                {
+                    $ids[$get_ids[$i]] = array();
+                }
+                foreach($result as $key => $value)
+                {
+                    if(isset($result[$key][$get_ids[$i]]))
+                    {   
+                        $ids[$get_ids[$i]][$key][$get_ids[$i]]=$result[$key][$get_ids[$i]];
+                        $ids[$get_ids[$i]][$key]['Name']=$result[$key]['Name'];
+                    }      
+                } 
+
+                $new_e_ids[$get_ids[$i]]=$this->string_ids($string,$ids[$get_ids[$i]],$type=$get_ids[$i]);
+                
+            }
         }
 
-        return $new_e_ids;
+        // return $new_e_ids;
+        return $result;
          
     }
     function array_not_unique($raw_array) 
@@ -325,7 +310,7 @@ class searching
             $pattern='('.$value1.')';
             foreach ($string_ids as $key => $value)
             {  
-               if(preg_match_all($pattern, strtolower($string_ids[$key]['name']), $output))
+               if(preg_match_all($pattern, strtolower($string_ids[$key]['Name']), $output))
                 {        
                     array_push($ids, $string_ids[$key][$type]);    
                 }

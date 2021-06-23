@@ -129,31 +129,29 @@
         },
         manage_buffer_SendAjax:function(ajax_data)
         {
-  
-
             $.ajax({ 
-                        type:"POST",
-                        async: "false",
-                        url:ajax_url,
-                        data:ajax_data,
-                        dataType: 'json',
-                        beforeSend()
-                        {
-                           
-                        },
-                        success(data)
-                        {    
-                            
-                           manage_buffer.manage_buffer_AddData(data);
-                           $("#loading").hide();
+                type:"POST",
+                async: "true",
+                url:ajax_url,
+                data:ajax_data,
+                dataType: 'json',
+                beforeSend()
+                {
+                   console.log('ajax_data: '+JSON.stringify(ajax_data));
+                },
+                success(data)
+                {    
+                    
+                   manage_buffer.manage_buffer_AddData(data);
+                   $("#loading").hide();
 
-                        },
-                        error: function() 
-                        {
-                            
-                            console.log("Error occured!");
-                        }
-                    }); 
+                },
+                error: function(error) 
+                {
+                    
+                    console.log("Error occured! "+JSON.stringify(error));
+                }
+            }); 
         },
         manage_buffer_AddData:function(response)
         {   
@@ -221,8 +219,8 @@
 
             $(document).ready(function()
             { 
-                $("head").append('<script type="text/javascript" src="/./Mock_test_1/pagination1.0/simplePagination.js-master/jquery.simplePagination.js"></script>');
-                $("head").append('<link rel="stylesheet" href="/./Mock_test_1/pagination1.0/simplePagination.js-master/simplePagination.css">');
+                $("head").append('<script type="text/javascript" src="pagination1.0/simplePagination.js-master/jquery.simplePagination.js"></script>');
+                $("head").append('<link rel="stylesheet" href="pagination1.0/simplePagination.js-master/simplePagination.css">');
 
                 $("#"+pagi_id).pagination(
                 {      
