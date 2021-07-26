@@ -1,18 +1,19 @@
 <?php
 
-	require_once('/Applications/MAMP/htdocs/Mock_test_1/search_library/search.php');
+	require_once('../search_library/search.php');
 
-	require_once('/Applications/MAMP/htdocs/Mock_test_1/pagination1.0/prepared_query.php');
+	require_once('../pagination1.0/prepared_query.php');
 
-
+	// instantiate
 	$application_obj = new ManageApp();
 
 	$connection_mock_chat = NULL;
-
-	$application_obj->Myconnection ($connection_mock_chat,"localhost","root","Mock_test_db");
+	// set connection -host->localhost, dbName->library , userName->Root
+	$application_obj->Myconnection ($connection_mock_chat,"localhost","root","library");
 	$table_heading_name=array('Name','Email','Phone Number','Gender');
 	$table_column_name=array('name','email','phoneNum','gender');
 	$where=1;
+	// For data populate
 	if($_POST['request'] == 'data')
 	{  
 		global $connection_mock_chat;
@@ -31,6 +32,7 @@
 	    $response_data['table_column_name']=$table_column_name;
 	    echo json_encode($response_data);
 	}
+	// For search
 	elseif ($_POST['request']=='search') 
 	{   
 		global $connection_mock_chat;
@@ -44,7 +46,7 @@
 	    $response_data=array();
 	    $obj=new searching($input,$connection_mock_chat);
 	    $keys=array('type','table_name','search_col_name','get_colms','get_id');
-	    $value=array(array('string','login_db.mock_test_tbl','name','null as name,id,null as email,null as phone,null as gender','id'));
+	    $value=array(array(array('string','email'),'mock_test_tbl',array('Name','Email'),'name,id,email,phone,gender','id'));
 	    $query_data=array();
 
 	    foreach ($value as $key => $value1) 
@@ -52,6 +54,8 @@
 	        $query_details=array_combine($keys, $value1);
 	        array_push($query_data, $query_details);
 	    }
+
+		//var_dump($query_data);
 
 	    $get_query_and_data=$obj->get_query_and_data($query_data); 
 	    $result=array();
@@ -61,13 +65,20 @@
 	        $result=mysqli_prepared_query($connection_mock_chat,$get_query_and_data['query'],"",$params);        
 	    }
 
+		//var_dump($result);
+		//var_dump($get_query_and_data['get_ids']);
+
 	    $get_ids=$obj->get_ids($result,$get_query_and_data['string'],$get_query_and_data['get_ids']);
 	   
-	    $where_data=$obj->searching_data($get_ids);
+		$where_data=$obj->searching_data($get_ids);
+		
+		//var_dump($where_data);
 
 	    $table_from=array("table_name_id","table_name_email");
-	    $table1_to=array("login_db.mock_test_tbl","login_db.mock_test_tbl");
-	    $tble1=str_replace($table_from, $table1_to, $where_data);
+	    $table1_to=array("mock_test_tbl","mock_test_tbl");
+		$tble1=str_replace($table_from, $table1_to, $where_data);
+		
+		//var_dump($tble1);
 
 	    if($tble1=='')
 	    {
@@ -83,7 +94,8 @@
 	        $response_data['total_data']=$total_data['total_data'];
 	        $response_data['max_page']=$total_data['max_page'];
 	        $response_data['table_heading_name']=$table_heading_name;
-	        $response_data['table_column_name']=$table_column_name;
+			$response_data['table_column_name']=$table_column_name;
+			//var_dump($response_data);
 	        echo json_encode($response_data);
 	    }
 
@@ -92,15 +104,15 @@
 
 		function MyConnection (&$connection,$host,$user,$db)
 		{
-
+			// host
 	        $host='localhost';
-
+	        // username
 	        $user='root';
-
-			$connection= mysqli_connect ($host, $user, "root" , $db); 
+	        // setting passowrd to empty string''
+			$connection= mysqli_connect ($host, $user, "" , $db); 
 			if (!$connection) 
 			{
-				die ( "no connection found" . mysqli_error($connection));
+				die ( "Oops, Could not connect to Db" . mysqli_error($connection));
 			}
 			
 		}
@@ -193,10 +205,10 @@
 		                $res_here=$val;
 		                $res_here['max_page']=$max_page;
 		                $res_here['total_length'] =$total_length;
-		                $Name=$val['name'];
-		                $Email=$val['email'];
-		                $phoneNum=$val['phone'];
-		                $Gender=$val['gender'];
+		                $Name=$val['Name'];
+		                $Email=$val['Email'];
+		                $phoneNum=$val['Phone'];
+		                $Gender=$val['Gender'];
 		                $res_here['name']=$Name;
 		                $res_here['email']=$Email;
 		                $res_here['phoneNum']=$phoneNum;

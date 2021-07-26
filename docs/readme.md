@@ -5,3 +5,6 @@
 
 ## Known Issues
 	In the search field, we do not get any results if we enter an email address. We need to configure pagination library and search library in such a way that it helps us search using the email address as well.
+
+## Solution Done
+	Search modified to include either a username or a full email address. Though there are many ways to get to the solution, I tried to do minimal changes to the original codeg.
