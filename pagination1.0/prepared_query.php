@@ -3,6 +3,7 @@
 function mysqli_prepared_query($link,$sql,$typeDef = FALSE,$params = FALSE)
 { 
   $multiQuery = TRUE; 
+  //var_dump($sql);
   if($stmt = mysqli_prepare($link,$sql))
   { 
     if(count($params) == count($params,1))
@@ -41,6 +42,9 @@ function mysqli_prepared_query($link,$sql,$typeDef = FALSE,$params = FALSE)
         }
       } 
       $queryResult = array(); 
+
+      //var_dump($stmt);
+
       if(mysqli_stmt_execute($stmt)){ 
         $resultMetaData = mysqli_stmt_result_metadata($stmt); 
         if($resultMetaData){                                                                               

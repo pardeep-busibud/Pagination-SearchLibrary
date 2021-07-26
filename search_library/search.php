@@ -72,18 +72,9 @@ class searching
         {
             $email=$output[0][0];    
         }
-        $input_new= preg_replace('/\b[\d]+\b/', '', $input_new); 
-        $input_new = preg_replace("/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/",'',$input_new);  
-        $pattern_string = "/\b[a-zA-Z_]+\b|\b\w*\d\w*\b/";
-        if(preg_match_all($pattern_string, $input_new, $output))
-        {   
-            $name_ex_comp=$output[0];
-            for ($i=0; $i < sizeof($name_ex_comp); $i++) 
-            {   
-                array_push($expert_and_company, $name_ex_comp[$i]); 
-            }
-             
-        }
+
+        array_push($expert_and_company, $input_new);
+
         $data['string']=$expert_and_company; 
         array_push($data['string'], $email); 
         $data['email']=$email;    
@@ -92,18 +83,30 @@ class searching
             echo "string";
         }
 
+        //var_dump($expert_and_company);
+        // Add up email search
         foreach ($query_data as $key => $value_q)
         {   
-            if(!empty($data['string']))
+            if(!empty($data['email']))
             {
-                if ($value_q['type']=='string') 
+                if ($value_q['type'][1]=='email') 
+                {   
+                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'][1].' LIKE "%'.$email.'%"';
+                    //var_dump($query);
+                    array_push($query_array, $query);
+                    array_push($get_ids,$value_q['get_id']); 
+                }
+            }
+            elseif(!empty($data['string']))
+            {
+                if ($value_q['type'][0]=='string') 
                 {  
                     if(!empty($expert_and_company))
                     {
                         $attachment=array();
                         foreach ($expert_and_company as $key => $value) 
                         {    
-                            array_push($attachment,''.$value_q['search_col_name'].' LIKE "%'.$value.'%"'); 
+                            array_push($attachment,''.$value_q['search_col_name'][0].' LIKE "%'.$value.'%"'); 
                         }
                         $append_string_in_sql=implode(' OR ', $attachment);
                         $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$append_string_in_sql.'';
@@ -112,16 +115,7 @@ class searching
                     
                     array_push($get_ids,$value_q['get_id']);   
                 }
-            }
-            if(!empty($data['email']))
-            {
-                if ($value_q['type']=='email') 
-                {   
-                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].'="'.$email.'"';
-                    array_push($query_array, $query);
-                    array_push($get_ids,$value_q['get_id']); 
-                }
-            }
+            }            
 
         }
            
@@ -199,12 +193,9 @@ class searching
         } 
         
         $new_input= preg_replace('/\d{4}[-\/\.]\d{2}[-\/\.]\d{2}|\d{2}[-\/\.]\d{2}[-\/\.]\d{4}|\d{2}[-\/\.]\d{2}/', '', $this->input);
-        //manu remove 08/06/20
-        //$pattern_hid_eid="/\b[\d]+\b/";
-        //manu remove 08/06/20
-        //manu add 08/06/20
+        
         $pattern_hid_eid="/\b^\d+\b/";
-        //manu added 08/06/20
+        
         if (preg_match_all($pattern_hid_eid, $new_input, $matches_out)) 
         {   
             $string_ids=$matches_out[0][0];
