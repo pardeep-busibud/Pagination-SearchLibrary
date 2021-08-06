@@ -1,9 +1,9 @@
 <?php
 
-function mysqli_prepared_query($link,$sql,$typeDef = FALSE,$params = FALSE)
+function mysqli_prepared_query($link, $sql, $typeDef = FALSE, $params = FALSE)
 { 
   $multiQuery = TRUE; 
-  if($stmt = mysqli_prepare($link,$sql))
+  if($stmt = mysqli_prepare($link, $sql))
   { 
     if(count($params) == count($params,1))
     { 
