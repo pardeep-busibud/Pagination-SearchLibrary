@@ -72,9 +72,8 @@ class searching
         $pattern_email = "/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/";
         if(preg_match_all($pattern_email, $input_new, $output))
         {
-            $email = $output[0][0];    //print_r($output[0][0]); die();
+            $email = $output[0][0];    
 			array_push($expert_and_company, $email); 
-			//echo 'In E';
         }
        
 	    $input_new = preg_replace('/\b[\d]+\b/', '', $input_new); 
@@ -88,12 +87,11 @@ class searching
             {   
                 array_push($expert_and_company, $name_ex_comp[$i]); 
             }
-			//echo 'In S';
         }
-        $data['string'] = $expert_and_company;    //print_r($expert_and_company); die();
-        //array_push($data['string'], $email);      print_r($data['string']); die();
-		 array_push($data['string'], '');      //print_r($data['string']); die();
-        $data['email']=$email;    
+        $data['string'] = $expert_and_company;    
+        //array_push($data['string'], $email);      
+		array_push($data['string'], '');      
+        $data['email'] = $email;    
 		
         if($data['string'][0]=='' && $data['email']=='')
         {
@@ -116,8 +114,7 @@ class searching
                         $append_string_in_sql=implode(' OR ', $attachment);
                         $query = 'SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$append_string_in_sql.'';
                         array_push($query_array, $query);  
-                    }
-                    
+                    }                    
                     array_push($get_ids, $value_q['get_id']);   
                 }
             }
@@ -201,8 +198,7 @@ class searching
             {
                 $Final_date=$year."-".$month."-".$Date1;
                  
-            }
-           
+            }         
         } 
         
         $new_input= preg_replace('/\d{4}[-\/\.]\d{2}[-\/\.]\d{2}|\d{2}[-\/\.]\d{2}[-\/\.]\d{4}|\d{2}[-\/\.]\d{2}/', '', $this->input);
