@@ -4,11 +4,13 @@ class searching
     public $input;
     public $connection6;
     public $date_filter=array();
-    function __construct($input,$connection6) 
+	
+    function __construct($input, $connection6) 
     {
         $this->input = $input;
-        $this->connection6=$connection6;
+        $this->connection6 = $connection6;
     }
+	
     function get_query_and_data($query_data)
     {    
         $email='';
@@ -65,29 +67,35 @@ class searching
             }
             
         }
-        $input_new= preg_replace($pattern_date_btn, '', $input_new); 
+        $input_new = preg_replace($pattern_date_btn, '', $input_new); 
 
-        $pattern_email= "/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/";
-        if(preg_match_all($pattern_email, $input_new, $output) )
+        $pattern_email = "/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/";
+        if(preg_match_all($pattern_email, $input_new, $output))
         {
-            $email=$output[0][0];    
+            $email = $output[0][0];    //print_r($output[0][0]); die();
+			array_push($expert_and_company, $email); 
+			//echo 'In E';
         }
-        $input_new= preg_replace('/\b[\d]+\b/', '', $input_new); 
+       
+	    $input_new = preg_replace('/\b[\d]+\b/', '', $input_new); 
         $input_new = preg_replace("/\b[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}\b/",'',$input_new);  
         $pattern_string = "/\b[a-zA-Z_]+\b|\b\w*\d\w*\b/";
-        if(preg_match_all($pattern_string, $input_new, $output))
+        
+		if(preg_match_all($pattern_string, $input_new, $output))
         {   
-            $name_ex_comp=$output[0];
+            $name_ex_comp = $output[0];
             for ($i=0; $i < sizeof($name_ex_comp); $i++) 
             {   
                 array_push($expert_and_company, $name_ex_comp[$i]); 
             }
-             
+			//echo 'In S';
         }
-        $data['string']=$expert_and_company; 
-        array_push($data['string'], $email); 
+        $data['string'] = $expert_and_company;    //print_r($expert_and_company); die();
+        //array_push($data['string'], $email);      print_r($data['string']); die();
+		 array_push($data['string'], '');      //print_r($data['string']); die();
         $data['email']=$email;    
-        if($data['string'][0]='' AND $data['email']='')
+		
+        if($data['string'][0]=='' && $data['email']=='')
         {
             echo "string";
         }
@@ -103,37 +111,36 @@ class searching
                         $attachment=array();
                         foreach ($expert_and_company as $key => $value) 
                         {    
-                            array_push($attachment,''.$value_q['search_col_name'].' LIKE "%'.$value.'%"'); 
+                            array_push($attachment, ''.$value_q['search_col_name'].' LIKE "%'.$value.'%"'); 
                         }
                         $append_string_in_sql=implode(' OR ', $attachment);
-                        $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$append_string_in_sql.'';
+                        $query = 'SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$append_string_in_sql.'';
                         array_push($query_array, $query);  
                     }
                     
-                    array_push($get_ids,$value_q['get_id']);   
+                    array_push($get_ids, $value_q['get_id']);   
                 }
             }
             if(!empty($data['email']))
             {
-                if ($value_q['type']=='email') 
+                if($value_q['type']=='email') 
                 {   
-                    $query='SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].'="'.$email.'"';
+                    $query = 'SELECT '.$value_q['get_colms'].' FROM '.$value_q['table_name'].' WHERE '.$value_q['search_col_name'].'="'.$email.'"'; 
                     array_push($query_array, $query);
-                    array_push($get_ids,$value_q['get_id']); 
+                    array_push($get_ids, $value_q['get_id']); 
                 }
             }
-
-        }
-           
-        $data['sub_querys']=$query_array;
-        $data['get_ids']=$get_ids;
-        $string_query=implode(' UNION ', $query_array); 
-        $data['query']=$string_query; 
-        return $data;    
+        }	
+		 
+        $data['sub_querys'] = $query_array;  
+        $data['get_ids'] = $get_ids;
+        $string_query = implode(' UNION ', $query_array); 
+        $data['query'] = $string_query;    
+        return $data;   
     }
+	
     function searching_data($ids_of_string)
-    {   
-        
+    {          
         $Date1='';
         $month='';
         $year='';
@@ -214,7 +221,8 @@ class searching
         $append_id=array();
         $append_string_id=array();
         foreach ($ids_of_string as $key => $value) 
-        {   if($string_ids!=0)
+        {   
+			if($string_ids!=0)
             {
                $exp_value= explode(',', $value);
                if($value=='')
@@ -251,8 +259,7 @@ class searching
         }  
 
         if(!empty($append_id))
-        {
-        
+        {        
             $append_where_data=implode(' OR ',$append_id);
             $append_where_data='('.$append_where_data.')';
         }
@@ -265,17 +272,16 @@ class searching
             else
             {
                 $append_where_data.=' AND '. implode(' AND ',$append_string_id);
-            }
-            
+            }         
         } 
         return $append_where_data;
     }
 
-    function get_ids($result,$string,$get_ids)
-    {   
-        for($i=0;$i<sizeof($get_ids);$i++)
+    function get_ids($result, $string, $get_ids)
+    {   		
+        for($i=0; $i<sizeof($get_ids); $i++)
         {   
-           if(!isset($ids[$get_ids[$i]])) 
+            if(!isset($ids[$get_ids[$i]])) 
             {
                 $ids[$get_ids[$i]] = array();
             }
@@ -284,17 +290,14 @@ class searching
                 if(isset($result[$key][$get_ids[$i]]))
                 {   
                     $ids[$get_ids[$i]][$key][$get_ids[$i]]=$result[$key][$get_ids[$i]];
-                    $ids[$get_ids[$i]][$key]['name']=$result[$key]['name'];
+                    $ids[$get_ids[$i]][$key]['name'] = $result[$key]['name'];  
                 }      
             } 
-
-            $new_e_ids[$get_ids[$i]]=$this->string_ids($string,$ids[$get_ids[$i]],$type=$get_ids[$i]);
-            
-        }
-
-        return $new_e_ids;
-         
+            $new_e_ids[$get_ids[$i]] = $this->string_ids($string, $ids[$get_ids[$i]], $type=$get_ids[$i]);  
+        } 
+        return $new_e_ids;     
     }
+	
     function array_not_unique($raw_array) 
     {   
         $dupes = array();
@@ -316,21 +319,22 @@ class searching
         return $dupes;
     }
 
-    function string_ids($expert_and_company,$string_ids,$type)
-    {   
-        $ids=array();
-        foreach ($expert_and_company as $key => $value1)
+    function string_ids($expert_and_company, $string_ids, $type)
+    { 
+        $ids = array();
+        foreach($expert_and_company as $key => $value1)
         {   
-            $value1=strtolower($value1);
-            $pattern='('.$value1.')';
-            foreach ($string_ids as $key => $value)
-            {  
-               if(preg_match_all($pattern, strtolower($string_ids[$key]['name']), $output))
-                {        
+            $value1 = strtolower($value1);
+            $pattern = '('.$value1.')'; 
+			
+            foreach($string_ids as $key => $value)
+            { 
+                if(preg_match_all($pattern, strtolower($string_ids[$key]['name']), $output))
+                {
                     array_push($ids, $string_ids[$key][$type]);    
                 }
             }     
-        }
+        }  
 
         $common_stuff = $this->array_not_unique($ids);
 
@@ -342,8 +346,7 @@ class searching
             foreach ($unik_stuff as $key => $value) 
             {
                array_push($new_ids, $value);
-            }
-            
+            }          
         }
         else
         {
@@ -353,7 +356,6 @@ class searching
         $new_ids=implode(",",$new_ids);
 
         return $new_ids;
-    }    
-       
+    }        
 }
 ?>
